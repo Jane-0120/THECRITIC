@@ -3,19 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, type ReactNode } from "react";
-import { scenes } from "@/data/scenes";
 
-// Two spaces per scene: its thumbnail plus the most distinct other frame.
-const places = scenes.flatMap((scene) => {
-  const second =
-    scene.space.image.src !== scene.thumbnail.src ? scene.space.image : scene.finalStill;
-  return [scene.thumbnail, second].map((image) => ({
-    slug: scene.slug,
-    title: scene.title,
-    note: image.label === scene.title ? null : image.label.split(" — ").pop() ?? null,
-    image,
-  }));
-});
+// Ten distinct places from the film, each linking to the scene it belongs to.
+const places = [
+  { slug: "nula", name: "NULA Storefront", src: "/images/scene-nula-exterior.png", alt: "NULA restaurant storefront at dusk" },
+  { slug: "nula", name: "The Press Wall", src: "/images/scene-nula-frames.png", alt: "Framed photographs and Jonah's old column on the wall of NULA" },
+  { slug: "nula", name: "NULA Kitchen", src: "/images/place-nula-kitchen.png", alt: "Marco in NULA's kitchen during service" },
+  { slug: "morning", name: "The White Apartment", src: "/images/scene-morning-room.png", alt: "Jonah's minimal white apartment at dawn" },
+  { slug: "morning", name: "Morning Counter", src: "/images/scene-morning-dim.png", alt: "The AETER glasses waiting on the apartment counter" },
+  { slug: "signal", name: "The Night Pedestal", src: "/images/scene-signal-night.png", alt: "AETER glasses on a pedestal with a lit ring interface" },
+  { slug: "tasting", name: "The Dining Hall", src: "/images/place-dining-hall.png", alt: "Marco carrying a dish across NULA's columned dining hall" },
+  { slug: "tasting", name: "The Corner Table", src: "/images/place-corner-table.png", alt: "Jonah alone at a round table, seen from the kitchen pass" },
+  { slug: "three-stars", name: "AETER Three-Star", src: "/images/scene-aeter-restaurant.png", alt: "An AETER-rated restaurant storefront at night" },
+  { slug: "three-stars", name: "The Billboard", src: "/images/scene-aeter-billboard.png", alt: "A VERA campaign billboard seen through a car window" },
+];
 
 // Staggered two-row layout, in `--u` units (≈1vh on desktop). `left` is the
 // card's x offset along the track, `aspect` its width/height.
@@ -117,7 +118,7 @@ export default function ScenesShowcase({ header }: { header: ReactNode }) {
             const l = layout[i % layout.length];
             return (
               <Link
-                key={`${place.slug}-${i}`}
+                key={place.src}
                 href={`/scenes/${place.slug}`}
                 data-cursor="hover"
                 data-card
@@ -132,36 +133,24 @@ export default function ScenesShowcase({ header }: { header: ReactNode }) {
                   className="relative overflow-hidden bg-paper-dim"
                   style={{ height: `calc(${CARD_H} * var(--u))` }}
                 >
-                  {place.image.src && (
-                    <div
+                  <div
                       data-parallax
                       className="absolute inset-y-0 will-change-transform"
                       style={{ left: `-${PARALLAX * 100}%`, right: `-${PARALLAX * 100}%` }}
                     >
                       <Image
-                        src={place.image.src}
-                        alt={place.image.alt}
+                        src={place.src}
+                        alt={place.alt}
                         fill
                         sizes="(min-width: 1024px) 40vw, 70vw"
                         loading="eager"
                         className="object-cover opacity-80 transition-[opacity,transform] duration-700 ease-out group-hover:scale-[1.04] group-hover:opacity-100"
                       />
-                    </div>
-                  )}
+                  </div>
                 </div>
-                <div className="mt-3 flex items-baseline gap-3">
-                  <span className="text-[11px] text-ink-faint">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-[12px] uppercase tracking-[0.08em] text-ink-soft transition-colors group-hover:text-ink">
-                    {place.title}
-                  </span>
-                  {place.note && (
-                    <span className="text-[11px] uppercase tracking-[0.08em] text-ink-faint">
-                      {place.note}
-                    </span>
-                  )}
-                </div>
+                <p className="mt-3 text-[12px] uppercase tracking-[0.08em] text-ink-soft transition-colors group-hover:text-ink">
+                  {place.name}
+                </p>
               </Link>
             );
           })}

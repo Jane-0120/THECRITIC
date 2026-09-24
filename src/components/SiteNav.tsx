@@ -50,6 +50,17 @@ export default function SiteNav() {
         <div className="mx-auto flex h-20 max-w-[1600px] items-center justify-between px-4 sm:px-6">
           <Link
             href="/"
+            onClick={(e) => {
+              // Already home: glide back up to the hero instead of a no-op.
+              if (pathname !== "/") return;
+              e.preventDefault();
+              window.history.replaceState(
+                window.history.state,
+                "",
+                window.location.pathname + window.location.search
+              );
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
             data-cursor="hover"
             data-intro-rise
             className="font-display text-sm uppercase tracking-[0.2em] text-ink"

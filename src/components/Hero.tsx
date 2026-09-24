@@ -18,10 +18,10 @@ const introFrames = [
   "/images/scene-nula-exterior.png",
   "/images/scene-morning-room.png",
   "/images/scene-signal-night.png",
-  "/images/scene-tasting-fig.png",
+  "/images/scene-tasting-overhead.png",
   "/images/scene-nula-interior.png",
   "/images/scene-aeter-restaurant.png",
-  "/images/scene-signal-glasses.png",
+  "/images/scene-tasting-sweets.png",
 ];
 const BOX_ASPECT = 1.9;
 
@@ -51,7 +51,7 @@ export default function Hero() {
       return;
     }
 
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "instant" });
     root.dataset.intro = "playing";
     document.body.style.overflow = "hidden";
 
