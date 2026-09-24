@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #060606;
+  --paper-dim: #111111;
+  --paper-line: rgba(255, 255, 255, 0.16);
+  --ink: #f5f5f2;
+  --ink-soft: rgba(245, 245, 242, 0.66);
+  --ink-faint: rgba(245, 245, 242, 0.4);
+  --accent: #f5f5f2;
+  --accent-soft: rgba(245, 245, 242, 0.66);
+  --stage: #000000;
+  --stage-line: rgba(255, 255, 255, 0.16);
+  --stage-text: #f5f5f2;
+  --stage-text-soft: rgba(245, 245, 242, 0.62);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-dim: var(--paper-dim);
+  --color-paper-line: var(--paper-line);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-stage: var(--stage);
+  --color-stage-line: var(--stage-line);
+  --color-stage-text: var(--stage-text);
+  --color-stage-text-soft: var(--stage-text-soft);
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", monospace;
+}
+
+* {
+  border-color: var(--paper-line);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+/* `.snap-section` no longer carries CSS scroll-snap — it's just the marker
+   PagedScroll queries to build its paginated, dim-then-advance scroll. */
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Cross cursor: the native pointer is hidden on precise-pointer devices;
+   <CustomCursor> draws the "+" that replaces it. */
+@media (hover: hover) and (pointer: fine) {
+  html {
+    cursor: none;
+  }
+}
+
+/* Small "+" marks that sit at the corners of a bordered section, giving the
+   line-grid its cross-shaped intersections. */
+.corner-cross {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  pointer-events: none;
+}
+.corner-cross::before,
+.corner-cross::after {
+  content: "";
+  position: absolute;
+  background: var(--ink-faint);
+}
+.corner-cross::before {
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  transform: translateX(-50%);
+}
+.corner-cross::after {
+  top: 50%;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+/* Slow breathing zoom for full-bleed hero imagery, in place of real video motion. */
+@keyframes kenburns {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+.animate-kenburns {
+  animation: kenburns 26s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-kenburns {
+    animation: none;
+  }
+}
+
+/* Reveal-on-scroll: no-JS / reduced-motion always visible */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-slow {
+  transform: translateY(48px);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+noscript .reveal {
+  opacity: 1;
+  transform: none;
+}
