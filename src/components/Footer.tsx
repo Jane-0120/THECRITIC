@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { chapters, site } from "@/data/site";
 
-const IMMERSIVE_ROUTE = /^\/scenes\/[^/]+$/;
+const IMMERSIVE_ROUTE = /^\/scenes\/[^/]+\/?$/;
 
 export default function Footer() {
   const pathname = usePathname();
