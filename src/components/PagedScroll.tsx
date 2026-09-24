@@ -2,15 +2,15 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
-const TICKS_TO_ADVANCE = 3;
+const TICKS_TO_ADVANCE = 2;
 const TICK_COOLDOWN_MS = 450;
 const MAX_DIM = 0.65;
 const LOCK_MS = 700;
 
 /**
  * Turns the homepage's `.snap-section` blocks into a paginated scroll: each
- * discrete wheel gesture darkens the current section a little more, and the
- * third one commits a smooth scroll to the next (or previous) section.
+ * first wheel gesture darkens the current section, and the second one
+ * commits a smooth scroll to the next (or previous) section.
  *
  * Any section taller than the viewport (the pinned Scenes gallery) is left
  * to scroll natively while there's still room inside it — this component

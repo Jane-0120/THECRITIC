@@ -39,7 +39,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5.5rem;
 }
 
 /* `.snap-section` no longer carries CSS scroll-snap — it's just the marker

@@ -16,7 +16,6 @@ export const metadata: Metadata = {
   description: site.description,
 };
 
-const AETER_BRAND_ASPECT = "2324/1080";
 const HIGGSFIELD_PREVIEW_ASPECT = "3392/1756";
 const instagramUrl =
   "https://www.instagram.com/aeter.ai?stkn=MW9xb3B6Y3Y0cGl6bQ%3D%3D&utm_source=qr";
@@ -138,25 +137,21 @@ export default function Home() {
 
         <section
           id="aeter"
-          className="snap-section relative flex h-[100svh] items-center justify-center overflow-hidden"
+          className="snap-section relative h-[100svh] overflow-hidden bg-stage"
         >
-          <div
-            className="relative"
-            style={{
-              aspectRatio: AETER_BRAND_ASPECT,
-              width: `min(100%, calc(100svh * ${AETER_BRAND_ASPECT}))`,
-            }}
-          >
+          <div className="absolute inset-0">
             <Image
               src="/images/aeter-brand.png"
               alt="AETER campaign billboard, seen from a passing train: adaptive intelligence built for immersion"
               fill
               sizes="100vw"
-              className="object-contain"
+              className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/50" />
+          </div>
 
-            <div className="absolute inset-0 mx-auto flex max-w-[1600px] flex-col justify-between px-4 py-8 sm:px-6 sm:py-10">
+          <div className="relative">
+            <div className="mx-auto flex h-[100svh] max-w-[1600px] flex-col justify-between px-4 pb-12 pt-24 sm:px-6 sm:pb-14 sm:pt-28">
               <div>
                 <SectionLabel label="AETER" />
               </div>
