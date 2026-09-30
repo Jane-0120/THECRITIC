@@ -9,7 +9,7 @@ import CharacterShowcase from "@/components/CharacterShowcase";
 import ScenesShowcase from "@/components/ScenesShowcase";
 import ToolMarquee, { type ToolItem } from "@/components/ToolMarquee";
 import PagedScroll from "@/components/PagedScroll";
-import { higgsfieldProjectUrl, site } from "@/data/site";
+import { higgsfieldProjectUrl, site, trailerUrl } from "@/data/site";
 
 export const metadata: Metadata = {
   title: site.shortName,
@@ -20,10 +20,11 @@ const HIGGSFIELD_PREVIEW_ASPECT = "3392/1756";
 const instagramUrl =
   "https://www.instagram.com/aeter.ai?stkn=MW9xb3B6Y3Y0cGl6bQ%3D%3D&utm_source=qr";
 
+const contextText =
+  "AI가 일상에 깊이 스며들면서, 선택과 판단을 기술에 맡기는 일이 자연스러워지고 있다.\n본 프로젝트는 이러한 변화를 가까운 미래로 확장한 스페큘러티브 디자인 프로젝트이다.\n가상의 AI 브랜드 AETER와 AI 글래스, 이를 사용하는 음식 비평가의 이야기를 담은 단편 영화로 구성된다.";
+
 const narrativeParagraphs = [
-  "Food critic Jonah Keller visits NULA, a restaurant that refuses to participate in the AI rating system AETER. Its chef, Marco, still keeps a column Jonah wrote years ago. But the critic who returns now wears smart glasses and assesses the meal with his AI assistant, VERA.",
-  "Across seven courses, VERA identifies ingredients and suggests sentences for the review. Jonah saves them instead of writing his own notes. Even a personal card from Marco and a dish of figs become material for the system to interpret.",
-  "Back home, Jonah reads the draft VERA has written and asks what the fig tasted like—to him. VERA can describe the food and recall his physical response, but it cannot tell him what the experience meant. After a pause, Jonah submits the review without changing its conclusion.",
+  "유명 음식 비평가 조나 켈러가 AI 평가 시스템을 거부하는 레스토랑 NULA를 찾는다. 셰프 마르코는 조나가 오래전 쓴 칼럼을 간직한 채 그를 맞지만, 돌아온 비평가의 눈앞에는 AI 어시스턴트 VERA가 있다. 일곱 코스가 나오는 동안 VERA는 재료를 분석하고 평가를 제안한다. 조나는 직접 메모하는 대신 완성된 문장들을 저장한다. 마르코가 건넨 개인적인 메시지도, 마지막 무화과 요리도 예외는 아니다. 식사를 마칠 즈음, 비평문에 필요한 말은 이미 갖춰져 있다.\n\n그러나 집에서 초안을 읽던 조나는 뜻밖의 질문에 막힌다. “그 무화과, 나한테는 무슨 맛이었지?” VERA는 맛의 특징과 그의 신체 반응을 기억하지만, 그에게 그 한입이 무엇이었는지는 답하지 못한다. 조나는 망설임 끝에 글을 제출한다. 이후 식사 중 글래스를 사용하는 모습이 온라인에 퍼지고, 다른 비평문에서 똑같은 표현이 발견되면서 그의 판단은 의심받기 시작한다. 편집자 레나가 마지막 코스를 자신의 말로 설명해보라고 하자, 조나는 답을 찾지 못한다. 비평문은 철회되고, 그는 습관처럼 안경으로 향하던 손을 멈춘다.\n누구보다 맛을 잘 설명하던 비평가에게, 이제 자신의 말이 필요하다.",
 ];
 
 const processSteps = [
@@ -67,12 +68,13 @@ export default function Home() {
             <Reveal>
               <SectionLabel label="Story" />
             </Reveal>
-            <div className="mt-12 max-w-3xl">
+            <div className="mt-12 grid items-start gap-12 lg:grid-cols-[minmax(0,48rem)_minmax(0,1fr)] lg:gap-20">
+            <div className="max-w-3xl">
               <Reveal duration={2400} delay={700} className="reveal-slow">
                 <p className="text-[11px] uppercase tracking-[0.14em] text-ink-faint">Context</p>
                 <div className="mt-4 text-ink-soft">
                   <ScrollReveal baseOpacity={0.15} baseRotation={2} blurStrength={6}>
-                    {"If AI can describe what we ate and how we felt, what remains the critic's job? THE CRITIC follows the small, ordinary decisions through which assistance becomes dependence. At its center is a question of authorship: who stands behind a judgment when someone else has supplied the words?"}
+                    {contextText}
                   </ScrollReveal>
                 </div>
               </Reveal>
@@ -87,6 +89,28 @@ export default function Home() {
                   ))}
                 </div>
               </Reveal>
+            </div>
+
+            <Reveal duration={2400} delay={1200} className="reveal-slow lg:justify-self-end">
+              <a
+                href={trailerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor="hover"
+                data-cursor-label="Watch full film"
+                aria-label="Watch the full film on YouTube"
+                className="group relative block w-full max-w-[420px] overflow-hidden"
+              >
+                <Image
+                  src="/images/poster.png"
+                  alt="THE CRITIC film poster"
+                  width={1190}
+                  height={1684}
+                  sizes="(min-width: 1024px) 420px, 100vw"
+                  className="h-auto w-full transition-transform duration-700 group-hover:scale-[1.03]"
+                />
+              </a>
+            </Reveal>
             </div>
           </div>
         </section>

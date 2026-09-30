@@ -11,6 +11,8 @@ export const chapters: NavChapter[] = [
   { href: "/#process", label: "Process", index: "04" },
 ];
 
+export const trailerUrl = "https://youtu.be/gxszHktHC4o";
+
 export const higgsfieldProjectUrl = "https://higgsfield.ai/s/v7Fok3Y1xgM";
 
 export const site = {

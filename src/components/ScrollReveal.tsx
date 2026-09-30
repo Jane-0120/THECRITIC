@@ -37,7 +37,11 @@ export default function ScrollReveal({
   const splitText = useMemo<ReactNode[]>(() => {
     const text = typeof children === "string" ? children : "";
     return text.split(/(\s+)/).map((word, index) => {
-      if (word.match(/^\s+$/)) return word;
+      if (word.match(/^\s+$/)) {
+        const breaks = word.split("\n").length - 1;
+        if (breaks === 0) return word;
+        return Array.from({ length: breaks }, (_, i) => <br key={`${index}-${i}`} />);
+      }
       return (
         <span className="word" key={index}>
           {word}

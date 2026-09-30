@@ -3,12 +3,12 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { trailerUrl } from "@/data/site";
 
 // Swap in a real cut once one exists — the hero prefers video and only
 // falls back to a slow-zoom still when this is null.
 const heroVideoSrc: string | null = null;
 
-const trailerUrl = "https://youtu.be/gxszHktHC4o";
 const heroStill = "/images/hero-critic.png";
 
 // Frames stacked inside the intro box, each opening out from its centre.
