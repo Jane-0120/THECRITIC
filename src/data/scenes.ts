@@ -1,340 +1,179 @@
-import type { Scene } from "./types";
+import type { ImageRef, Scene } from "./types";
 
-// No hotspot callouts in this cut — kept as an empty set so the shared Scene
-// type doesn't need a special case.
-const noHotspots: Scene["space"]["hotspots"] = [];
+const still = (src: string, label: string, alt: string, aspect = "1916/821"): ImageRef => ({
+  label,
+  alt,
+  aspect,
+  src,
+});
 
 export const scenes: Scene[] = [
   {
-    slug: "nula",
+    slug: "home",
     number: "01",
-    title: "NULA",
-    thumbnail: {
-      label: "NULA",
-      alt: "NULA restaurant storefront at dusk",
-      aspect: "1914/822",
-      src: "/images/scene-nula-exterior.png",
-    },
-    finalStill: {
-      label: "NULA — dining room",
-      alt: "Marco DeLuca and Jonah Keller inside NULA's dining room",
-      aspect: "1907/825",
+    title: "JONAH'S HOME",
+    titleKo: "조나의 집",
+    description:
+      "큰 창과 회색 석재, 정돈된 가구는 조나의 통제된 일상을 드러낸다. 아침에는 VERA로 일정과 신체 상태를 확인하고,\n밤에는 비평문을 작성하는 공간이다. 조나는 이곳에서 기록된 정보와 자신이 느낀 경험 사이의 간극을 마주한다.",
+    floorPlan: {
+      label: "Jonah's Home — plan",
+      alt: "Exploded axonometric plan of Jonah's apartment: living room, kitchen island and bedroom",
+      aspect: "1672/941",
       tone: "stage",
-      src: "/images/scene-nula-interior.png",
+      src: "/images/space-home-plan.png",
     },
-    directorIntent:
-      "The last restaurant in the city that doesn't know it's being reviewed by two critics at once.",
-    space: {
-      lighting: "Warm tungsten against Jonah's cold interface light — the room argues with his glasses before he says a word.",
-      color: "Deep teal velvet, brass, candlelight — a palette built to resist AETER's white.",
-      material: "Linen, marble, hand-thrown ceramic; nothing in the room is synthetic.",
-      props: ["Hand-lettered menu", "Marco's chef whites", "A framed clipping: \"Bread That Remembers\""],
-      image: {
-        label: "NULA — press wall",
-        alt: "Framed photographs and a magazine feature on the wall of NULA",
-        aspect: "1857/847",
-        src: "/images/scene-nula-frames.png",
-      },
-      hotspots: noHotspots,
+    render: {
+      label: "Jonah's Home — living room",
+      alt: "Jonah's living room in grey stone, with floor-to-ceiling windows over the skyline",
+      aspect: "1920/1084",
+      src: "/images/space-home-render.jpg",
     },
-    storyboard: [
-      {
-        image: {
-          label: "Arrival",
-          alt: "Jonah Keller entering NULA from the street",
-          aspect: "1908/824",
-          src: "/images/scene-nula-entering.png",
-        },
-        caption: "Jonah arrives — the room clocks him before he clocks it.",
-      },
-      {
-        image: {
-          label: "The note",
-          alt: "A handwritten note on the table at NULA",
-          aspect: "1915/821",
-          src: "/images/scene-nula-note.png",
-        },
-        caption:
-          "A note waits at the table: \"For Jonah, who once wrote about bread that remembers. I hope you still do. — M\"",
-      },
-    ],
-    compare: {
-      before: {
-        label: "Arrival",
-        alt: "Jonah Keller entering NULA",
-        aspect: "1908/824",
-        src: "/images/scene-nula-entering.png",
-      },
-      after: {
-        label: "Dining room",
-        alt: "NULA's dining room, final frame",
-        aspect: "1907/825",
-        tone: "stage",
-        src: "/images/scene-nula-interior.png",
-      },
-      caption: "From the door to the table — the room's warmth doesn't survive first contact with Jonah's interface.",
-    },
-    makingRecordSlugs: [],
-    relatedCharacterSlugs: ["jonah-keller", "marco-deluca"],
-  },
-  {
-    slug: "morning",
-    number: "02",
-    title: "Morning Interface",
     thumbnail: {
-      label: "Morning Interface",
-      alt: "A minimal apartment at dawn",
-      aspect: "2528/1088",
-      src: "/images/scene-morning-room.png",
-    },
-    finalStill: {
-      label: "Morning Interface — overlay",
-      alt: "First-person view through the AETER glasses showing sleep and schedule data",
-      aspect: "1916/821",
+      label: "Jonah's Home",
+      alt: "Exploded axonometric plan of Jonah's apartment",
+      aspect: "1672/941",
       tone: "stage",
-      src: "/images/scene-morning-overlay.png",
+      src: "/images/space-home-plan.png",
     },
-    directorIntent:
-      "Before the first course, VERA is already reading the room — sleep, schedule, the meetings still to come.",
-    space: {
-      lighting: "Cold dawn light through floor-to-ceiling glass; the apartment has no warmth of its own.",
-      color: "Bone, concrete, glass — a palette designed to make the AR overlay the only color in frame.",
-      material: "Poured concrete, raw stone, unfinished surfaces; the interface is the only finished thing here.",
-      props: ["AETER glasses on a charging dock", "Untouched breakfast", "A skyline VERA has already catalogued"],
-      image: {
-        label: "Apartment, half-light",
-        alt: "Dim apartment interior with the AETER glasses on a shelf",
-        aspect: "2528/1088",
-        src: "/images/scene-morning-dim.png",
-      },
-      hotspots: noHotspots,
-    },
-    storyboard: [
-      {
-        image: {
-          label: "Half-light",
-          alt: "The apartment at half-light, glasses waiting on the counter",
-          aspect: "2528/1088",
-          src: "/images/scene-morning-dim.png",
-        },
-        caption: "The apartment at half-light — glasses waiting on the counter before Jonah does.",
-      },
+    stills: [
+      still("/images/scene-morning-overlay.png", "Morning overlay", "First-person view through the AETER glasses showing sleep and schedule data"),
+      still("/images/scene-home-desk.jpg", "Review session", "Jonah at his desk at night, reading VERA's review screen"),
+      still("/images/scene-home-companion.jpg", "Companion mode", "VERA's companion mode replaying the final fig course"),
+      still("/images/scene-home-toast.jpg", "Burnt toast", "Jonah holding up a piece of burnt toast in his kitchen", "2560/1429"),
+      still("/images/scene-home-draft.jpg", "Review draft", "VERA's review draft, rated two stars and submitted"),
+      still("/images/scene-home-fig.jpg", "The fig", "The final fig course, recalled on screen"),
+      still("/images/scene-home-text.jpg", "The draft text", "Close on the review text, one phrase highlighted"),
     ],
-    compare: {
-      before: {
-        label: "The room",
-        alt: "The apartment, wide shot",
-        aspect: "2528/1088",
-        src: "/images/scene-morning-room.png",
-      },
-      after: {
-        label: "The overlay",
-        alt: "The same room through VERA's overlay",
-        aspect: "1916/821",
-        tone: "stage",
-        src: "/images/scene-morning-overlay.png",
-      },
-      caption: "The same apartment, read two ways: by eye, and by VERA.",
-    },
-    makingRecordSlugs: [],
-    relatedCharacterSlugs: [],
-  },
-  {
-    slug: "signal",
-    number: "03",
-    title: "The Signal",
-    thumbnail: {
-      label: "The Signal",
-      alt: "AETER glasses left on a dark pedestal, a teal ring interface lit beside them",
-      aspect: "2528/1088",
-      src: "/images/scene-signal-night.png",
-    },
-    finalStill: {
-      label: "The Signal — close",
-      alt: "Close view of the AETER glasses on Jonah's face",
-      aspect: "1916/821",
-      tone: "stage",
-      src: "/images/scene-signal-glasses.png",
-    },
-    directorIntent: "The one shot where the glasses stop assisting and start asking something back.",
-    space: {
-      lighting: "A single cold ring-light against total dark — the only source in the film that isn't practical.",
-      color: "Near-black with one signal color: the teal ring VERA leaves lit on the floor.",
-      material: "Bare concrete, glass, an empty frame — the most stripped-down space in the film.",
-      props: ["AETER glasses, left where they were dropped", "A pulsing ring interface", "An empty hallway"],
-      image: {
-        label: "The signal ring",
-        alt: "AETER glasses on a pedestal with a lit ring interface",
-        aspect: "2528/1088",
-        tone: "stage",
-        src: "/images/scene-signal-night.png",
-      },
-      hotspots: noHotspots,
-    },
-    storyboard: [
-      {
-        image: {
-          label: "Close on the glasses",
-          alt: "Jonah adjusts the AETER glasses, unaware they are recording",
-          aspect: "1916/821",
-          src: "/images/scene-signal-glasses.png",
-        },
-        caption: "Jonah adjusts the frame, unaware VERA is already recording.",
-      },
-    ],
-    compare: {
-      before: {
-        label: "Close",
-        alt: "Close view of the glasses on Jonah's face",
-        aspect: "1916/821",
-        src: "/images/scene-signal-glasses.png",
-      },
-      after: {
-        label: "The ring",
-        alt: "The glasses left on a pedestal with the signal ring lit",
-        aspect: "2528/1088",
-        tone: "stage",
-        src: "/images/scene-signal-night.png",
-      },
-      caption: "The frame VERA chooses to keep, against the one Jonah remembers.",
-    },
-    makingRecordSlugs: [],
     relatedCharacterSlugs: ["jonah-keller"],
   },
   {
-    slug: "tasting",
-    number: "04",
-    title: "The Tasting",
-    thumbnail: {
-      label: "The Tasting",
-      alt: "A tasting-menu course with a VERA overlay reading its profile",
-      aspect: "1916/821",
-      src: "/images/scene-tasting-fig.png",
-    },
-    finalStill: {
-      label: "The Tasting — Course 05",
-      alt: "Hands cutting into a beef course with VERA's suggested expressions overlaid",
-      aspect: "1915/821",
+    slug: "nula",
+    number: "02",
+    title: "NULA",
+    titleKo: "레스토랑",
+    description:
+      "아치형 창, 짙은 청록색 벽과 따뜻한 목재는 음식에 집중하는 분위기를 만든다.\n이곳에서 마르코가 음식에 담은 기억과 조나의 AI가 제안하는 평가가 마주한다.",
+    floorPlan: {
+      label: "NULA — plan",
+      alt: "Exploded axonometric plan of NULA: columned dining hall with round tables and an open kitchen",
+      aspect: "1672/941",
       tone: "stage",
-      src: "/images/scene-tasting-beef.png",
+      src: "/images/space-nula-plan.png",
     },
-    directorIntent: "Six courses, six verdicts — and Jonah says almost none of them out loud.",
-    space: {
-      lighting: "Low candlelight built for a human eye, fighting the crisp white overlays only Jonah can see.",
-      color: "Cream linen and gold-rimmed china, broken by VERA's cool white text.",
-      material: "Bone china, silver, linen — set against the interface's glass and light.",
-      props: ["Tasting notebook", "A pen, mostly unused", "Six courses, one verdict each"],
-      image: {
-        label: "Course, served",
-        alt: "A server placing a plated course on the table",
-        aspect: "1915/821",
-        src: "/images/scene-tasting-serve.png",
-      },
-      hotspots: noHotspots,
+    render: {
+      label: "NULA — dining hall",
+      alt: "NULA's dining hall: arched windows, teal columns and round tables",
+      aspect: "2560/1446",
+      src: "/images/space-nula-render.jpg",
     },
-    storyboard: [
-      {
-        image: {
-          label: "Course 01 — Biancomangiare",
-          alt: "Course 01 with VERA's sensory-profile overlay",
-          aspect: "1915/821",
-          src: "/images/scene-tasting-course01.png",
-        },
-        caption: "Course 01 — Biancomangiare. VERA logs it before Jonah lifts the spoon.",
-      },
-      {
-        image: {
-          label: "Course 06 — Citrus Sorbet",
-          alt: "Course 06 with VERA's tasting guidance overlay",
-          aspect: "1916/821",
-          src: "/images/scene-tasting-dessert.png",
-        },
-        caption: "Course 06 — Citrus Sorbet. \"The next bite should feel brighter.\"",
-      },
+    thumbnail: {
+      label: "NULA",
+      alt: "Exploded axonometric plan of NULA",
+      aspect: "1672/941",
+      tone: "stage",
+      src: "/images/space-nula-plan.png",
+    },
+    stills: [
+      still("/images/scene-nula-exterior.png", "Storefront", "NULA restaurant storefront", "1914/822"),
+      still("/images/scene-nula-note.png", "Visitor reviews", "A server at NULA, with visitor reviews and the menu overlaid", "1915/821"),
+      still("/images/scene-nula-interior.png", "Marco and Jonah", "Marco DeLuca crossing the dining room toward Jonah", "1907/825"),
+      still("/images/scene-tasting-beef.png", "Course 05 — Beef", "Hands cutting into a beef course with VERA's suggested expressions overlaid", "1915/821"),
+      still("/images/scene-nula-entering.png", "Arrival", "Jonah Keller entering NULA's dining room", "1908/824"),
+      still("/images/scene-nula-frames.png", "The press wall", "Framed photographs and Jonah's old column on the wall of NULA", "1857/847"),
+      still("/images/place-dining-hall.png", "The dining hall", "Marco carrying a dish across NULA's columned dining hall", "1939/811"),
+      still("/images/place-corner-table.png", "The corner table", "Jonah alone at a round table, seen from the kitchen pass", "1915/821"),
+      still("/images/place-nula-kitchen.png", "NULA kitchen", "Marco in NULA's kitchen during service", "2048/1152"),
+      still("/images/scene-signal-glasses.png", "The glasses", "Jonah touching the AETER glasses at the table"),
+      still("/images/scene-tasting-course01.png", "Course 01", "Course 01 with VERA's sensory-profile overlay", "1915/821"),
+      still("/images/scene-tasting-saved.jpg", "Saved", "A fish course with VERA's suggested frame saved", "1918/820"),
+      still("/images/scene-tasting-fish.jpg", "Fish course", "A fish course served on a white plate"),
+      still("/images/scene-tasting-overhead.png", "Overhead", "A course seen from above, notebook beside the plate"),
+      still("/images/scene-tasting-sweets.png", "Sweets", "Dessert plates on the linen tablecloth"),
+      still("/images/scene-tasting-dessert.png", "Course 06 — Citrus Sorbet", "Course 06 with VERA's tasting guidance overlay"),
+      still("/images/scene-tasting-fig.png", "Final course — Black Fig", "The final black fig course with VERA's suggested note"),
     ],
-    compare: {
-      before: {
-        label: "Course 01",
-        alt: "The first course of the tasting menu",
-        aspect: "1916/821",
-        src: "/images/scene-tasting-fig.png",
-      },
-      after: {
-        label: "Course 05",
-        alt: "The fifth course of the tasting menu",
-        aspect: "1915/821",
-        tone: "stage",
-        src: "/images/scene-tasting-beef.png",
-      },
-      caption: "Six plates, one running verdict — VERA's log outpaces the meal itself.",
-    },
-    makingRecordSlugs: [],
-    relatedCharacterSlugs: ["jonah-keller", "marco-deluca"],
+    relatedCharacterSlugs: ["marco-deluca", "jonah-keller"],
   },
   {
-    slug: "three-stars",
-    number: "05",
-    title: "Three Stars",
-    thumbnail: {
-      label: "Three Stars",
-      alt: "An AETER-rated restaurant storefront at night",
-      aspect: "2528/1088",
-      src: "/images/scene-aeter-restaurant.png",
-    },
-    finalStill: {
-      label: "Three Stars — billboard",
-      alt: "A VERA campaign billboard seen through a car window",
-      aspect: "1915/821",
+    slug: "raven",
+    number: "03",
+    title: "RAVEN",
+    titleKo: "편집부",
+    description:
+      "RAVEN은 조나가 비평문을 기고하는 매거진의 편집부이다. 식당에서의 경험이 독자에게 전달할 글로\n다듬어지는 이곳에서, 조나는 자신의 이름으로 발표한 판단을 스스로 설명해야 하는 상황에 놓인다.",
+    floorPlan: {
+      label: "RAVEN — plan",
+      alt: "Exploded axonometric plan of the RAVEN editorial office: open desks and glass-walled rooms",
+      aspect: "1672/941",
       tone: "stage",
-      src: "/images/scene-aeter-billboard.png",
+      src: "/images/space-raven-plan.png",
     },
-    directorIntent:
-      "Every restaurant in the city now wears its AETER rating on the door — including the ones VERA hasn't reviewed yet.",
-    space: {
-      lighting: "Amber shopfront light spilling onto a wet street — the city's version of a five-star glow.",
-      color: "Charcoal stone and brass at night, broken by one red curtain inside.",
-      material: "Stone façade, brass signage, glass — built to be read from a passing car.",
-      props: ["An AETER-rated plaque by the door", "A city that stopped choosing where to eat"],
-      image: {
-        label: "AETER storefront",
-        alt: "AETER-rated restaurant storefront at night",
-        aspect: "2528/1088",
-        src: "/images/scene-aeter-restaurant.png",
-      },
-      hotspots: noHotspots,
+    render: {
+      label: "RAVEN — editorial office",
+      alt: "The RAVEN editorial office behind glass partitions",
+      aspect: "1920/1084",
+      src: "/images/space-raven-render.jpg",
     },
-    storyboard: [
-      {
-        image: {
-          label: "The billboard",
-          alt: "A VERA campaign billboard passing a car window",
-          aspect: "1915/821",
-          src: "/images/scene-aeter-billboard.png",
-        },
-        caption: "A VERA campaign billboard passes the car window — the same face Jonah trusts with dinner.",
-      },
+    thumbnail: {
+      label: "RAVEN",
+      alt: "Exploded axonometric plan of the RAVEN editorial office",
+      aspect: "1672/941",
+      tone: "stage",
+      src: "/images/space-raven-plan.png",
+    },
+    stills: [
+      still("/images/scene-raven-office.jpg", "Glass room", "Lena Voss confronting Jonah inside a glass-walled room", "2560/1429"),
+      still("/images/scene-raven-desk.jpg", "Lena's desk", "Lena Voss speaking to Jonah across her desk", "2560/1096"),
+      still("/images/scene-raven-question.jpg", "The question", "Jonah, glasses on, caught off guard by Lena's question", "1919/820"),
+      still("/images/scene-raven-arrival.jpg", "Editorial floor", "Lena crossing the editorial floor toward Jonah"),
     ],
-    compare: {
-      before: {
-        label: "Storefront",
-        alt: "AETER-rated restaurant storefront",
-        aspect: "2528/1088",
-        src: "/images/scene-aeter-restaurant.png",
-      },
-      after: {
-        label: "Billboard",
-        alt: "VERA campaign billboard",
-        aspect: "1915/821",
-        tone: "stage",
-        src: "/images/scene-aeter-billboard.png",
-      },
-      caption: "The storefront, and the billboard selling the same face inside it.",
+    relatedCharacterSlugs: ["lena-voss", "jonah-keller"],
+  },
+  {
+    slug: "street",
+    number: "04",
+    title: "DOWNTOWN",
+    titleKo: "도심 거리",
+    description:
+      "세 공간을 잇는 배경인 미국 도시의 거리. AETER 평점을 내건 레스토랑과\nVERA 광고가 일상의 풍경처럼 늘어서 있고, 조나는 이동하는 차 안에서도 VERA를 통해 도시를 읽는다.",
+    floorPlan: {
+      label: "Downtown — plan",
+      alt: "Axonometric model of a downtown block: storefronts, offices and the street outside",
+      aspect: "1672/941",
+      tone: "stage",
+      src: "/images/space-street-plan.png",
     },
-    makingRecordSlugs: [],
-    relatedCharacterSlugs: [],
+    thumbnail: {
+      label: "Downtown",
+      alt: "Axonometric model of a downtown block",
+      aspect: "1672/941",
+      tone: "stage",
+      src: "/images/space-street-plan.png",
+    },
+    stills: [
+      still("/images/scene-street-sidewalk.jpg", "Sidewalk at dusk", "A downtown sidewalk at dusk, shopfronts lit along the street", "2528/1088"),
+      still("/images/scene-aeter-restaurant.png", "AETER-rated restaurant", "An AETER-rated restaurant storefront at night", "2528/1088"),
+      still("/images/scene-aeter-billboard.png", "VERA billboard", "A VERA campaign billboard seen through a car window", "1915/821"),
+      still("/images/hero-critic.png", "In transit", "Jonah in the back of a self-driving car, a VERA billboard outside", "1678/937"),
+    ],
+    relatedCharacterSlugs: ["jonah-keller"],
   },
 ];
 
 export function getScene(slug: string) {
   return scenes.find((s) => s.slug === slug);
+}
+
+/** Everything viewable for a space, in order: plan, rendered view, stills. */
+export function sceneGallery(scene: Scene): ImageRef[] {
+  const raw = [scene.floorPlan, scene.render, ...scene.stills].filter(
+    (image): image is ImageRef => Boolean(image)
+  );
+  const seen = new Set<string>();
+  return raw.filter((image) => {
+    const key = image.src ?? image.label;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }

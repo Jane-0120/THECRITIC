@@ -19,6 +19,6 @@ export const site = {
   name: "THE CRITIC",
   shortName: "THE CRITIC",
   description:
-    "A preproduction archive for THE CRITIC — a film about a critic, a chef, and the AI reading his palate for him.",
+    "A preproduction archive for THE CRITIC — a film about a critic, a chef, and the AI that reads the critic's palate for him.",
   director: "JEIN KIM",
 };

@@ -9,6 +9,11 @@
   font-weight: 400;
 }
 
+/* Slightly more open leading for long-form passages (Story). */
+.scroll-reveal-text.is-airy {
+  line-height: 1.85;
+}
+
 .word {
   display: inline-block;
 }

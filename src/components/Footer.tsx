@@ -11,7 +11,9 @@ export default function Footer() {
   if (IMMERSIVE_ROUTE.test(pathname)) return null;
 
   return (
-    <footer className="relative border-t border-paper-line bg-paper">
+    // The corner crosses straddle the viewport edge; clip them sideways so
+    // they can't add a horizontal scroll (the off-screen half is never seen).
+    <footer className="relative overflow-x-clip border-t border-paper-line bg-paper">
       <span aria-hidden className="corner-cross" style={{ top: -4, left: -4 }} />
       <span aria-hidden className="corner-cross" style={{ top: -4, right: -4 }} />
       <div className="mx-auto max-w-[1600px] px-4 py-14 sm:px-6">

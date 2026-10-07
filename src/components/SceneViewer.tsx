@@ -2,29 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import Placeholder from "./Placeholder";
 import { getCharacter } from "@/data/characters";
 import { site } from "@/data/site";
-import type { ImageRef, Scene } from "@/data/types";
+import { sceneGallery } from "@/data/scenes";
+import type { Scene } from "@/data/types";
 
-function buildGallery(scene: Scene): ImageRef[] {
-  const raw = [
-    scene.finalStill,
-    scene.thumbnail,
-    ...scene.storyboard.map((p) => p.image),
-    scene.compare.before,
-    scene.compare.after,
-  ];
-  const seen = new Set<string>();
-  const gallery: ImageRef[] = [];
-  for (const image of raw) {
-    const key = image.src ?? image.label;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    gallery.push(image);
-  }
-  return gallery;
+function subscribeHash(onChange: () => void) {
+  window.addEventListener("hashchange", onChange);
+  return () => window.removeEventListener("hashchange", onChange);
 }
 
 export default function SceneViewer({
@@ -36,8 +23,14 @@ export default function SceneViewer({
   prev: Scene;
   next: Scene;
 }) {
-  const gallery = useMemo(() => buildGallery(scene), [scene]);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const gallery = useMemo(() => sceneGallery(scene), [scene]);
+  // Cards elsewhere link straight to an image with `#<index>`; a thumbnail
+  // click overrides it.
+  const hash = useSyncExternalStore(subscribeHash, () => window.location.hash, () => "");
+  const hashIndex = Number(hash.slice(1));
+  const [picked, setActiveIndex] = useState<number | null>(null);
+  const activeIndex =
+    picked ?? (Number.isInteger(hashIndex) && hashIndex > 0 && hashIndex < gallery.length ? hashIndex : 0);
   const [detailsOpen, setDetailsOpen] = useState(false);
 
   const characters = scene.relatedCharacterSlugs
@@ -59,7 +52,7 @@ export default function SceneViewer({
           data-cursor="hover"
           className="text-[12px] uppercase tracking-[0.14em] text-stage-text-soft transition-colors hover:text-stage-text"
         >
-          ← Scenes
+          ← Spaces
         </Link>
       </header>
 
@@ -67,7 +60,7 @@ export default function SceneViewer({
         <div className="relative mx-auto h-full max-w-[1600px]">
           {gallery[activeIndex]?.src ? (
             <Image
-              key={gallery[activeIndex].label}
+              key={gallery[activeIndex].src}
               src={gallery[activeIndex].src}
               alt={gallery[activeIndex].alt}
               fill
@@ -91,7 +84,7 @@ export default function SceneViewer({
             data-cursor="hover"
             className="text-[12px] uppercase tracking-[0.14em] text-stage-text-soft underline decoration-stage-line underline-offset-4 transition-colors hover:text-stage-text"
           >
-            Project details
+            Space details
           </button>
 
           <div className="flex items-center gap-6 text-[12px] uppercase tracking-[0.14em] text-stage-text-soft">
@@ -108,7 +101,7 @@ export default function SceneViewer({
           <div className="mx-auto mt-5 flex max-w-[1600px] gap-2 overflow-x-auto">
             {gallery.map((image, i) => (
               <button
-                key={image.label}
+                key={image.src ?? image.label}
                 type="button"
                 onClick={() => setActiveIndex(i)}
                 data-cursor="hover"
@@ -132,29 +125,15 @@ export default function SceneViewer({
             </p>
             <h2 className="font-display mt-2 text-3xl uppercase tracking-tight text-stage-text">
               {scene.title}
+              <span className="ml-3 text-xl normal-case text-stage-text-soft">{scene.titleKo}</span>
             </h2>
-            <p className="mt-4 max-w-xl text-[14px] leading-relaxed text-stage-text-soft">
-              {scene.directorIntent}
+            <p className="mt-4 max-w-xl text-balance text-[14px] leading-relaxed text-stage-text-soft">
+              {scene.description}
             </p>
-
-            <dl className="mt-8 grid gap-6 border-t border-stage-line pt-6 sm:grid-cols-3">
-              <div>
-                <dt className="text-[11px] uppercase tracking-[0.12em] text-accent">Lighting</dt>
-                <dd className="mt-1 text-[13px] leading-relaxed text-stage-text-soft">{scene.space.lighting}</dd>
-              </div>
-              <div>
-                <dt className="text-[11px] uppercase tracking-[0.12em] text-accent">Color</dt>
-                <dd className="mt-1 text-[13px] leading-relaxed text-stage-text-soft">{scene.space.color}</dd>
-              </div>
-              <div>
-                <dt className="text-[11px] uppercase tracking-[0.12em] text-accent">Material</dt>
-                <dd className="mt-1 text-[13px] leading-relaxed text-stage-text-soft">{scene.space.material}</dd>
-              </div>
-            </dl>
 
             {characters.length > 0 && (
               <div className="mt-8 border-t border-stage-line pt-6">
-                <p className="text-[11px] uppercase tracking-[0.12em] text-accent">In this scene</p>
+                <p className="text-[11px] uppercase tracking-[0.12em] text-accent">In this space</p>
                 <ul className="mt-3 flex flex-wrap gap-3">
                   {characters.map((c) => (
                     <li key={c.slug}>

@@ -245,13 +245,14 @@ export default function Hero() {
             >
               The Critic
             </h1>
+            {/* Two lines at this leading come out the title's height, so the
+                pair sits level with it. */}
             <p
               data-intro-rise
-              className="max-w-2xl text-[14px] leading-snug text-stage-text-soft sm:text-[15px]"
+              className="flex flex-col text-[14px] leading-[1.75] text-stage-text-soft sm:text-[15px]"
             >
-              A film about a food critic who writes with the help of AI—
-              <br />
-              and begins to lose track of where his own judgment ends and its suggestions begin.
+              <span>AI의 도움으로 음식을 평가하던 비평가 조나는 자신의 감각과 기술이 제안한 판단 사이의 경계를 마주한다.</span>
+              <span>기술의 제안이 개인의 취향이 되는 시대, 판단을 맡기는 동안 무엇을 잃어가는지 묻는 단편 영화이다.</span>
             </p>
           </div>
         </div>

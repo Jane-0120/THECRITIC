@@ -15,7 +15,7 @@ export async function generateMetadata(
   if (!scene) return {};
   return {
     title: `${scene.title} · Scenes & Spaces`,
-    description: scene.directorIntent,
+    description: scene.description.replace(/\n/g, " "),
   };
 }
 
@@ -30,5 +30,5 @@ export default async function SceneDetailPage(
   const prev = scenes[(index - 1 + scenes.length) % scenes.length];
   const next = scenes[(index + 1) % scenes.length];
 
-  return <SceneViewer scene={scene} prev={prev} next={next} />;
+  return <SceneViewer key={scene.slug} scene={scene} prev={prev} next={next} />;
 }

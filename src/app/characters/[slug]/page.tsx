@@ -5,8 +5,7 @@ import PageHero from "@/components/PageHero";
 import Placeholder from "@/components/Placeholder";
 import Reveal from "@/components/Reveal";
 import { characters, getCharacter } from "@/data/characters";
-import { getScene } from "@/data/scenes";
-import type { ImageRef, Scene } from "@/data/types";
+import { getScene, sceneGallery } from "@/data/scenes";
 
 export function generateStaticParams() {
   return characters.map((c) => ({ slug: c.slug }));
@@ -24,19 +23,6 @@ export async function generateMetadata(
   };
 }
 
-function sceneGallery(scene: Scene): ImageRef[] {
-  const raw = [scene.finalStill, scene.thumbnail, ...scene.storyboard.map((p) => p.image)];
-  const seen = new Set<string>();
-  const gallery: ImageRef[] = [];
-  for (const image of raw) {
-    const key = image.src ?? image.label;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    gallery.push(image);
-  }
-  return gallery;
-}
-
 export default async function CharacterDetailPage(
   props: PageProps<"/characters/[slug]">
 ) {
@@ -50,7 +36,13 @@ export default async function CharacterDetailPage(
 
   return (
     <div>
-      <PageHero index="01" eyebrow={character.role} title={character.name} lead={character.oneLiner} />
+      <PageHero index="01" eyebrow={character.role} title={character.name}>
+        {/* The same description as the home showcase, run wide so it reads
+            as two long lines. */}
+        <p className="mt-5 max-w-6xl text-balance text-[15px] leading-relaxed text-ink-soft">
+          {(character.bio ?? [character.oneLiner]).join(" ")}
+        </p>
+      </PageHero>
 
       <div className="mx-auto max-w-[1600px] px-4 pb-24 sm:px-6">
         {relatedScenes.length > 0 ? (
@@ -59,18 +51,18 @@ export default async function CharacterDetailPage(
               <Reveal key={scene.slug} delay={si * 60}>
                 <div className="flex items-baseline justify-between gap-4 border-t border-paper-line pt-6">
                   <h2 className="font-display text-xl uppercase tracking-tight text-ink">
-                    {scene.number} · {scene.title}
+                    {scene.number} · {scene.title} <span className="text-ink-faint">{scene.titleKo}</span>
                   </h2>
                   <Link
                     href={`/scenes/${scene.slug}`}
                     data-cursor="hover"
                     className="text-[12px] uppercase tracking-[0.12em] text-ink-soft transition-colors hover:text-ink"
                   >
-                    View scene →
+                    View space →
                   </Link>
                 </div>
                 <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
-                  {sceneGallery(scene).map((image) => (
+                  {sceneGallery(scene).slice(0, 6).map((image) => (
                     <Link
                       key={image.label}
                       href={`/scenes/${scene.slug}`}
@@ -91,8 +83,8 @@ export default async function CharacterDetailPage(
         ) : (
           <Reveal>
             <p className="max-w-md border-t border-paper-line pt-10 text-[14px] leading-relaxed text-ink-soft">
-              {character.name} doesn&rsquo;t appear on camera — only as the interface layered over
-              every scene she reads.
+              {character.name}은(는) 화면에 직접 등장하지 않는다. 모든 장면 위에 겹쳐진
+              인터페이스로만 존재한다.
             </p>
           </Reveal>
         )}

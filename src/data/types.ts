@@ -56,6 +56,8 @@ export type CharacterDesign = {
 export type Character = {
   slug: string;
   name: string;
+  /** Character description, one sentence per line. */
+  bio?: string[];
   role: string;
   oneLiner: string;
   desire: string;
@@ -72,41 +74,20 @@ export type Character = {
 };
 
 // ---------- Scenes & Spaces ----------
-export type Hotspot = {
-  id: string;
-  x: number; // percent, 0-100
-  y: number; // percent, 0-100
-  label: string;
-  description: string;
-};
-
-export type StoryboardPanel = {
-  image: ImageRef;
-  caption: string;
-};
-
+// A space from the film: an axonometric plan, a rendered view, and the scene
+// stills shot inside it.
 export type Scene = {
   slug: string;
   number: string;
   title: string;
+  titleKo: string;
+  /** Two lines, split with "\n" for the home showcase; joined elsewhere. */
+  description: string;
+  floorPlan?: ImageRef;
+  render?: ImageRef;
   thumbnail: ImageRef;
-  finalStill: ImageRef;
-  directorIntent: string;
-  space: {
-    lighting: string;
-    color: string;
-    material: string;
-    props: string[];
-    image: ImageRef;
-    hotspots: Hotspot[];
-  };
-  storyboard: StoryboardPanel[];
-  compare: {
-    before: ImageRef;
-    after: ImageRef;
-    caption: string;
-  };
-  makingRecordSlugs: string[];
+  /** Scene stills shot in this space; the first four are featured. */
+  stills: ImageRef[];
   relatedCharacterSlugs: string[];
 };
 
