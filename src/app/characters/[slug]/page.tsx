@@ -49,14 +49,14 @@ export default async function CharacterDetailPage(
           <div className="space-y-20">
             {relatedScenes.map((scene, si) => (
               <Reveal key={scene.slug} delay={si * 60}>
-                <div className="flex items-baseline justify-between gap-4 border-t border-paper-line pt-6">
-                  <h2 className="font-display text-xl uppercase tracking-tight text-ink">
+                <div className="flex items-baseline justify-between gap-3 border-t border-paper-line pt-6 sm:gap-4">
+                  <h2 className="font-display whitespace-nowrap text-[15px] uppercase tracking-tight text-ink sm:text-xl">
                     {scene.number} · {scene.title} <span className="text-ink-faint">{scene.titleKo}</span>
                   </h2>
                   <Link
                     href={`/scenes/${scene.slug}`}
                     data-cursor="hover"
-                    className="text-[12px] uppercase tracking-[0.12em] text-ink-soft transition-colors hover:text-ink"
+                    className="whitespace-nowrap text-[11px] uppercase tracking-[0.12em] text-ink-soft transition-colors hover:text-ink sm:text-[12px]"
                   >
                     View space →
                   </Link>

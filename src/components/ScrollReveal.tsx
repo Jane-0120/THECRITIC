@@ -40,6 +40,10 @@ export default function ScrollReveal({
       if (word.match(/^\s+$/)) {
         const breaks = word.split("\n").length - 1;
         if (breaks === 0) return word;
+        // A single break is a desktop line break: on phones it would strand a
+        // short tail, so there it collapses to a space. Blank lines
+        // (paragraph breaks) are kept everywhere.
+        if (breaks === 1) return [" ", <br key={index} className="max-sm:hidden" />];
         return Array.from({ length: breaks }, (_, i) => <br key={`${index}-${i}`} />);
       }
       return (

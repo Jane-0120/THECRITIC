@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { chapters, site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +30,20 @@ export default function SiteNav() {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  // The menu locks page scroll while open, and a same-page "/#section" link
+  // doesn't change the pathname, so close the menu first and then scroll.
+  const goToChapter = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
+    const [path, id] = href.split("#");
+    setOpen(false);
+    if (!id || (path || "/") !== pathname) return;
+    e.preventDefault();
+    // Next tick: by then closing the menu has released the scroll lock.
+    window.setTimeout(() => {
+      window.history.replaceState(window.history.state, "", `#${id}`);
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }, 0);
+  };
 
   if (IMMERSIVE_ROUTE.test(pathname)) return null;
 
@@ -131,6 +145,7 @@ export default function SiteNav() {
             <Link
               key={c.href}
               href={c.href}
+              onClick={(e) => goToChapter(e, c.href)}
               className="flex items-baseline gap-4 border-b border-paper-line py-4 font-display text-2xl uppercase tracking-tight text-ink"
             >
               <span className="text-xs text-ink-faint">{`//${c.index}`}</span>

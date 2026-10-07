@@ -52,6 +52,18 @@ body {
   overflow-wrap: break-word;
 }
 
+/* Phones: avoid a lone word on the last line of a paragraph. */
+@media (max-width: 639px) {
+  p,
+  li,
+  dd,
+  h1,
+  h2,
+  h3 {
+    text-wrap: pretty;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

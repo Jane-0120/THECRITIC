@@ -9,6 +9,7 @@ import CharacterShowcase from "@/components/CharacterShowcase";
 import ScenesShowcase from "@/components/ScenesShowcase";
 import ToolMarquee, { type ToolItem } from "@/components/ToolMarquee";
 import PagedScroll from "@/components/PagedScroll";
+import ArrowUpRight from "@/components/ArrowUpRight";
 import { higgsfieldProjectUrl, site, trailerUrl } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -172,9 +173,13 @@ export default function Home() {
               alt="AETER campaign billboard, seen from a passing train: adaptive intelligence built for immersion"
               fill
               sizes="100vw"
-              className="object-cover"
+              // Portrait screens only see a slice of this wide frame — keep
+              // the billboard (left of centre) in view.
+              className="object-cover max-lg:object-[23%_50%]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/50" />
+            {/* Portrait screens put the copy over the bright billboard, so the
+                lower part is darkened further there. */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/50 max-lg:bg-[linear-gradient(to_top,rgb(0_0_0/0.95)_0%,rgb(0_0_0/0.8)_32%,rgb(0_0_0/0.1)_62%,rgb(0_0_0/0.5)_100%)]" />
           </div>
 
           <div className="relative">
@@ -206,7 +211,7 @@ export default function Home() {
                       className="inline-flex items-center gap-2 border border-stage-text/50 bg-stage-text/10 px-6 py-2.5 text-[13px] uppercase tracking-[0.14em] text-stage-text backdrop-blur-sm transition-colors hover:bg-stage-text/20"
                     >
                       Instagram
-                      <span aria-hidden>↗</span>
+                      <ArrowUpRight />
                     </a>
                   </div>
                 </div>
@@ -249,10 +254,10 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="hover"
-                  className="group inline-flex items-center gap-3 border border-ink px-6 py-3 text-[13px] uppercase tracking-[0.14em] text-ink transition-colors hover:border-[#D1FE16] hover:text-[#D1FE16]"
+                  className="group inline-flex items-center gap-3 border border-ink px-6 py-3 text-[13px] uppercase tracking-[0.14em] text-ink transition-colors hover:border-[#D1FE16] hover:text-[#D1FE16] [@media(hover:none)]:text-[#D1FE16]"
                 >
                   View the Higgsfield project
-                  <span aria-hidden className="transition-transform group-hover:translate-x-1">↗</span>
+                  <ArrowUpRight className="transition-transform group-hover:translate-x-1" />
                 </a>
               </Reveal>
 

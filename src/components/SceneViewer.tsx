@@ -14,6 +14,22 @@ function subscribeHash(onChange: () => void) {
   return () => window.removeEventListener("hashchange", onChange);
 }
 
+function SpaceArrow({ href, label, side }: { href: string; label: string; side: "left" | "right" }) {
+  return (
+    <Link
+      href={href}
+      aria-label={label}
+      className={`absolute top-1/2 flex h-12 w-8 -translate-y-1/2 items-center justify-center text-stage-text-soft active:text-stage-text sm:hidden ${
+        side === "left" ? "left-0" : "right-0"
+      }`}
+    >
+      <svg aria-hidden viewBox="0 0 12 24" fill="none" stroke="currentColor" strokeWidth="1.2" className="h-6 w-3">
+        <path d={side === "left" ? "M10 2 2 12l8 10" : "M2 2l8 10-8 10"} />
+      </svg>
+    </Link>
+  );
+}
+
 export default function SceneViewer({
   scene,
   prev,
@@ -56,7 +72,12 @@ export default function SceneViewer({
         </Link>
       </header>
 
-      <div className="relative flex-1 px-5 py-6 sm:px-10">
+      {/* Phones: the space's name sits on top; desktop keeps it in the details. */}
+      <p className="mt-6 px-5 text-center text-[13px] uppercase tracking-[0.14em] text-stage-text sm:hidden">
+        {scene.number} — {scene.title}
+      </p>
+
+      <div className="relative flex-1 px-9 py-6 sm:px-10">
         <div className="relative mx-auto h-full max-w-[1600px]">
           {gallery[activeIndex]?.src ? (
             <Image
@@ -74,6 +95,10 @@ export default function SceneViewer({
             </div>
           )}
         </div>
+
+        {/* Phones: step between spaces with arrows beside the image. */}
+        <SpaceArrow href={`/scenes/${prev.slug}`} label={`Previous space: ${prev.title}`} side="left" />
+        <SpaceArrow href={`/scenes/${next.slug}`} label={`Next space: ${next.title}`} side="right" />
       </div>
 
       <div className="px-5 pb-6 sm:px-10">
@@ -87,7 +112,7 @@ export default function SceneViewer({
             Space details
           </button>
 
-          <div className="flex items-center gap-6 text-[12px] uppercase tracking-[0.14em] text-stage-text-soft">
+          <div className="hidden items-center gap-6 text-[12px] uppercase tracking-[0.14em] text-stage-text-soft sm:flex">
             <Link href={`/scenes/${prev.slug}`} data-cursor="hover" className="transition-colors hover:text-stage-text">
               ← {prev.title}
             </Link>

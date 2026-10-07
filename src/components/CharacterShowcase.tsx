@@ -1,14 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Placeholder from "./Placeholder";
 import VeraGlow from "./VeraGlow";
 import { characters } from "@/data/characters";
 
+const AUTO_ADVANCE_MS = 4000;
+
 export default function CharacterShowcase() {
   const [hovered, setHovered] = useState<number>(0);
   const active = characters[hovered];
+
+  // Touch screens can't hover, so the spotlight steps through the cast.
+  useEffect(() => {
+    if (!window.matchMedia("(hover: none)").matches) return;
+    const id = window.setInterval(() => {
+      setHovered((i) => (i + 1) % characters.length);
+    }, AUTO_ADVANCE_MS);
+    return () => window.clearInterval(id);
+  }, []);
 
   return (
     <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:gap-16 lg:items-center">
@@ -46,13 +57,14 @@ export default function CharacterShowcase() {
           <h3 className="font-display mt-2 text-xl uppercase leading-none tracking-tight text-ink sm:text-2xl">
             {active.name}
           </h3>
-          <div className="mt-5 max-w-xl space-y-1 text-[14px] leading-relaxed text-ink-soft">
+          {/* One sentence per line from `sm`; phones run them as a paragraph. */}
+          <p className="mt-5 max-w-xl text-pretty text-[14px] leading-relaxed text-ink-soft">
             {(active.bio ?? [active.oneLiner]).map((line) => (
-              <p key={line} className="text-pretty">
-                {line}
-              </p>
+              <span key={line} className="sm:block sm:not-first:mt-1">
+                {line}{" "}
+              </span>
             ))}
-          </div>
+          </p>
         </div>
       </div>
     </div>
