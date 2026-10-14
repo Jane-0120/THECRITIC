@@ -184,35 +184,34 @@ export default function Home() {
 
           <div className="relative">
             <div className="mx-auto flex h-[100svh] max-w-[1600px] flex-col justify-between px-4 pb-12 pt-24 sm:px-6 sm:pb-14 sm:pt-28">
-              <div>
+              <div className="flex flex-wrap items-baseline justify-between gap-4">
                 <SectionLabel label="AETER" />
+                <Link
+                  href="/aeter"
+                  data-cursor="hover"
+                  className="group flex items-center gap-2 text-[12px] uppercase tracking-[0.16em] text-stage-text-soft transition-colors hover:text-stage-text"
+                >
+                  About the brand
+                  <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+                </Link>
               </div>
 
               <div className="flex justify-end pb-2 sm:pb-4">
-                <div className="max-w-xl text-right xl:max-w-none">
+                <div className="flex max-w-xl flex-col items-end text-right xl:max-w-none">
+                  <a
+                    href={instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor="hover"
+                    className="mb-7 inline-flex items-center gap-2 border border-stage-text/50 bg-stage-text/10 px-6 py-2.5 text-[13px] uppercase tracking-[0.14em] text-stage-text backdrop-blur-sm transition-colors hover:bg-stage-text/20"
+                  >
+                    Instagram
+                    <ArrowUpRight />
+                  </a>
                   <div className="text-stage-text-soft">
                     <ScrollReveal baseOpacity={0.15} baseRotation={2} blurStrength={6} textClassName="text-right text-balance xl:whitespace-nowrap">
                       {aeterText}
                     </ScrollReveal>
-                  </div>
-                  <div className="mt-7 flex flex-wrap justify-end gap-3">
-                    <span
-                      title="No URL set yet."
-                      className="inline-flex items-center gap-2 bg-stage-text px-6 py-2.5 text-[13px] uppercase tracking-[0.14em] text-stage opacity-90"
-                    >
-                      Learn about AETER
-                      <span className="text-[11px] normal-case tracking-normal opacity-70">· pending</span>
-                    </span>
-                    <a
-                      href={instagramUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-cursor="hover"
-                      className="inline-flex items-center gap-2 border border-stage-text/50 bg-stage-text/10 px-6 py-2.5 text-[13px] uppercase tracking-[0.14em] text-stage-text backdrop-blur-sm transition-colors hover:bg-stage-text/20"
-                    >
-                      Instagram
-                      <ArrowUpRight />
-                    </a>
                   </div>
                 </div>
               </div>

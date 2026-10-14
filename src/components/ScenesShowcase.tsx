@@ -7,29 +7,38 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { scenes, sceneGallery } from "@/data/scenes";
 import type { ImageRef } from "@/data/types";
 
-// The track is laid out in `--u` units (≈1vh on desktop). Each space opens
-// with its axonometric plan and caption spanning both rows (a space without a
-// plan gets a caption column), followed by its featured stills staggered
-// across two rows.
+// The track is laid out in `--u` units. Each space opens with its
+// axonometric plan and caption spanning both rows (a space without a plan
+// gets a caption column), followed by its four featured stills staggered
+// across two rows. `--u` is capped so one whole space (SPACE_W units) always
+// fits inside the viewport width.
 type Card =
   | { kind: "plan"; slug: string; left: number; width: number; image?: ImageRef; heading: string; titleKo: string; description: string }
   | { kind: "still"; slug: string; left: number; width: number; row: number; image: ImageRef; index: number };
 
-const CARD_H = 21;
-const ROW_GAP = 8;
-// The plan stands about as tall as the two rows of stills beside it.
-const PLAN_IMG_H = 52;
+const CARD_H = 20;
+const ROW_GAP = 5;
+// The plan stands as tall as the two rows of stills beside it.
+const PLAN_IMG_H = CARD_H * 2 + ROW_GAP;
+const PLAN_ASPECT = 1672 / 941;
 const TEXT_W = 52;
 const STILL_ASPECT = 21 / 9;
-const TOP = "20svh";
+const STILL_W = CARD_H * STILL_ASPECT;
+const PLAN_GAP = 6;
+const STILL_GAP = 4;
+const STAGGER = 12;
+const SPACE_GAP = 24;
+const SPACE_W = PLAN_IMG_H * PLAN_ASPECT + PLAN_GAP + STAGGER + STILL_W * 2 + STILL_GAP;
+// Minimum breathing room either side of a space, in px.
+const EDGE = 40;
+const TOP = "22svh";
 const rowTop = (row: number) => `calc(${TOP} + ${row * (CARD_H + ROW_GAP)} * var(--u))`;
 
 const cards: Card[] = [];
-let cursor = 12;
+let cursor = 0;
 for (const scene of scenes) {
   const gallery = sceneGallery(scene);
-  const planAspect = scene.floorPlan ? 1672 / 941 : 0;
-  const planW = scene.floorPlan ? PLAN_IMG_H * planAspect : TEXT_W;
+  const planW = scene.floorPlan ? PLAN_IMG_H * PLAN_ASPECT : TEXT_W;
   cards.push({
     kind: "plan",
     slug: scene.slug,
@@ -40,23 +49,23 @@ for (const scene of scenes) {
     titleKo: scene.titleKo,
     description: scene.description,
   });
-  const rows = [cursor + planW + 8, cursor + planW + 26];
+  const rows = [cursor + planW + PLAN_GAP, cursor + planW + PLAN_GAP + STAGGER];
   scene.stills.slice(0, 4).forEach((image, i) => {
     const row = i % 2;
-    const width = CARD_H * STILL_ASPECT;
     cards.push({
       kind: "still",
       slug: scene.slug,
       left: rows[row],
-      width,
+      width: STILL_W,
       row,
       image,
       index: gallery.findIndex((g) => g.src === image.src),
     });
-    rows[row] += width + 6;
+    rows[row] += STILL_W + STILL_GAP;
   });
-  cursor = Math.max(...rows) + 16;
+  cursor = Math.max(...rows) - STILL_GAP + SPACE_GAP;
 }
+cursor -= SPACE_GAP;
 const TRACK_W = cursor;
 // How far (as a fraction of card width) the image drifts inside its frame.
 const PARALLAX = 0.12;
@@ -91,7 +100,8 @@ export default function ScenesShowcase({ header }: { header: ReactNode }) {
         section.style.height = "";
         return;
       }
-      distance = Math.max(0, track.scrollWidth - window.innerWidth);
+      // The track is inset so a space sits centred; end on the same inset.
+      distance = Math.max(0, track.scrollWidth - (window.innerWidth - 2 * track.offsetLeft));
       section.style.height = `${window.innerHeight + distance}px`;
     };
 
@@ -145,8 +155,12 @@ export default function ScenesShowcase({ header }: { header: ReactNode }) {
 
           <div
             ref={trackRef}
-            className="absolute inset-y-0 left-0 will-change-transform [--u:min(1svh,0.85vw)]"
-            style={{ width: `calc(${TRACK_W} * var(--u))` }}
+            className="absolute inset-y-0 will-change-transform"
+            style={{
+              ["--u" as string]: `min(1svh, calc((100vw - ${EDGE * 2}px) / ${SPACE_W.toFixed(2)}))`,
+              left: `calc((100vw - ${SPACE_W.toFixed(2)} * var(--u)) / 2)`,
+              width: `calc(${TRACK_W} * var(--u))`,
+            }}
           >
             {cards.map((card) =>
               card.kind === "plan" ? (
