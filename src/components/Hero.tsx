@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { trailerUrl } from "@/data/site";
+import { openFilm } from "./FilmPlayer";
 
 // Swap in a real cut once one exists — the hero prefers video and only
 // falls back to a slow-zoom still when this is null.
@@ -15,13 +15,14 @@ const heroStill = "/images/hero-critic.png";
 // After the last one, the real hero opens in the same box and grows to fill
 // the screen, so the intro hands off to the page without a cut.
 const introFrames = [
-  "/images/scene-nula-exterior.png",
-  "/images/scene-morning-room.png",
-  "/images/scene-signal-night.png",
-  "/images/scene-tasting-overhead.png",
-  "/images/scene-nula-interior.png",
+  "/images/scene-home-glasses-on.jpg",
   "/images/scene-aeter-restaurant.png",
-  "/images/scene-tasting-sweets.png",
+  "/images/scene-aeter-billboard.png",
+  "/images/scene-tasting-overhead.png",
+  "/images/scene-signal-glasses.png",
+  "/images/scene-street-figs.jpg",
+  "/images/scene-raven-standoff.jpg",
+  "/images/scene-home-burnt-toast.jpg",
 ];
 const BOX_ASPECT = 1.9;
 
@@ -205,13 +206,14 @@ export default function Hero() {
 
       <a
         ref={heroRef}
-        href={trailerUrl}
-        target="_blank"
-        rel="noopener noreferrer"
+        href="#film"
+        onClick={(e) => {
+          e.preventDefault();
+          openFilm();
+        }}
         data-cursor="hover"
-        data-cursor-label="Watch full film"
-        aria-label="Watch the full film on YouTube"
-        className="snap-section relative flex h-[100svh] min-h-[560px] w-full flex-col justify-between overflow-hidden bg-stage"
+        aria-label="Watch the full film"
+        className="group snap-section relative flex h-[100svh] min-h-[560px] w-full flex-col justify-between overflow-hidden bg-stage"
       >
         <div className="absolute inset-0">
           {heroVideoSrc ? (
@@ -262,14 +264,23 @@ export default function Hero() {
             data-intro-rise
             className="text-[12px] uppercase tracking-[0.2em] text-stage-text-soft"
           >
-            A Film by Jein Kim
+            A Film by Jane Kim
           </p>
+          {/* The whole hero opens the film; this is its visible cue, so it
+              stays a span rather than a button nested inside the link. */}
           <span
             data-intro-rise
-            className="flex items-center gap-2 text-[12px] uppercase tracking-[0.18em] text-stage-text-soft"
+            className="flex items-center gap-3 text-[12px] uppercase tracking-[0.18em] text-stage-text-soft transition-colors group-hover:text-stage-text"
           >
-            Scroll
-            <span aria-hidden className="text-accent">+</span>
+            Play film
+            <span
+              aria-hidden
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-stage-text/50 bg-stage-text/10 backdrop-blur-sm transition-colors group-hover:border-accent group-hover:bg-stage-text/20"
+            >
+              <svg viewBox="0 0 12 14" className="ml-0.5 h-3.5 w-3 fill-stage-text">
+                <path d="M0 0v14l12-7z" />
+              </svg>
+            </span>
           </span>
         </div>
       </a>

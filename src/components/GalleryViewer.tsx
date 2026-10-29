@@ -2,19 +2,37 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Placeholder from "./Placeholder";
 import { getCharacter } from "@/data/characters";
 import { site } from "@/data/site";
-import { sceneGallery } from "@/data/scenes";
-import type { Scene } from "@/data/types";
+import type { ImageRef } from "@/data/types";
 
 function subscribeHash(onChange: () => void) {
   window.addEventListener("hashchange", onChange);
   return () => window.removeEventListener("hashchange", onChange);
 }
 
-function SpaceArrow({ href, label, side }: { href: string; label: string; side: "left" | "right" }) {
+export type ViewerLink = { href: string; title: string };
+
+export type ViewerItem = {
+  number: string;
+  title: string;
+  titleKo?: string;
+  description: string;
+  relatedCharacterSlugs: string[];
+};
+
+/** Labels that differ between the space and sequence viewers. */
+export type ViewerSection = {
+  /** e.g. "Scenes & Spaces" */
+  name: string;
+  /** e.g. "space" — used in the details button and arrow labels */
+  unit: string;
+  back: ViewerLink;
+};
+
+function StepArrow({ href, label, side }: { href: string; label: string; side: "left" | "right" }) {
   return (
     <Link
       href={href}
@@ -30,16 +48,29 @@ function SpaceArrow({ href, label, side }: { href: string; label: string; side: 
   );
 }
 
-export default function SceneViewer({
-  scene,
+/**
+ * Full-screen image viewer for one space or one sequence: the active image,
+ * a thumbnail strip, prev/next between siblings, and a details sheet.
+ */
+export default function GalleryViewer({
+  item,
+  gallery,
+  section,
   prev,
   next,
+  specs = [],
+  links,
 }: {
-  scene: Scene;
-  prev: Scene;
-  next: Scene;
+  item: ViewerItem;
+  gallery: ImageRef[];
+  section: ViewerSection;
+  prev: ViewerLink;
+  next: ViewerLink;
+  /** Label/value rows shown in the details sheet, e.g. material and light. */
+  specs?: { label: string; value: string }[];
+  /** Cross-links shown in the details sheet, e.g. this space's sequences. */
+  links?: { heading: string; items: ViewerLink[] };
 }) {
-  const gallery = useMemo(() => sceneGallery(scene), [scene]);
   // Cards elsewhere link straight to an image with `#<index>`; a thumbnail
   // click overrides it.
   const hash = useSyncExternalStore(subscribeHash, () => window.location.hash, () => "");
@@ -49,9 +80,10 @@ export default function SceneViewer({
     picked ?? (Number.isInteger(hashIndex) && hashIndex > 0 && hashIndex < gallery.length ? hashIndex : 0);
   const [detailsOpen, setDetailsOpen] = useState(false);
 
-  const characters = scene.relatedCharacterSlugs
+  const characters = item.relatedCharacterSlugs
     .map((s) => getCharacter(s))
     .filter((c): c is NonNullable<typeof c> => Boolean(c));
+  const unitTitle = section.unit.charAt(0).toUpperCase() + section.unit.slice(1);
 
   return (
     <div className="fixed inset-0 z-40 flex flex-col bg-stage text-stage-text">
@@ -64,17 +96,17 @@ export default function SceneViewer({
           {site.shortName}
         </Link>
         <Link
-          href="/#scenes"
+          href={section.back.href}
           data-cursor="hover"
           className="text-[12px] uppercase tracking-[0.14em] text-stage-text-soft transition-colors hover:text-stage-text"
         >
-          ← Spaces
+          ← {section.back.title}
         </Link>
       </header>
 
-      {/* Phones: the space's name sits on top; desktop keeps it in the details. */}
+      {/* Phones: the title sits on top; desktop keeps it in the details. */}
       <p className="mt-6 px-5 text-center text-[13px] uppercase tracking-[0.14em] text-stage-text sm:hidden">
-        {scene.number} — {scene.title}
+        {item.number} — {item.title}
       </p>
 
       <div className="relative flex-1 px-9 py-6 sm:px-10">
@@ -96,9 +128,9 @@ export default function SceneViewer({
           )}
         </div>
 
-        {/* Phones: step between spaces with arrows beside the image. */}
-        <SpaceArrow href={`/scenes/${prev.slug}`} label={`Previous space: ${prev.title}`} side="left" />
-        <SpaceArrow href={`/scenes/${next.slug}`} label={`Next space: ${next.title}`} side="right" />
+        {/* Phones: step between siblings with arrows beside the image. */}
+        <StepArrow href={prev.href} label={`Previous ${section.unit}: ${prev.title}`} side="left" />
+        <StepArrow href={next.href} label={`Next ${section.unit}: ${next.title}`} side="right" />
       </div>
 
       <div className="px-5 pb-6 sm:px-10">
@@ -109,14 +141,14 @@ export default function SceneViewer({
             data-cursor="hover"
             className="text-[12px] uppercase tracking-[0.14em] text-stage-text-soft underline decoration-stage-line underline-offset-4 transition-colors hover:text-stage-text"
           >
-            Space details
+            {unitTitle} details
           </button>
 
           <div className="hidden items-center gap-6 text-[12px] uppercase tracking-[0.14em] text-stage-text-soft sm:flex">
-            <Link href={`/scenes/${prev.slug}`} data-cursor="hover" className="transition-colors hover:text-stage-text">
+            <Link href={prev.href} data-cursor="hover" className="transition-colors hover:text-stage-text">
               ← {prev.title}
             </Link>
-            <Link href={`/scenes/${next.slug}`} data-cursor="hover" className="transition-colors hover:text-stage-text">
+            <Link href={next.href} data-cursor="hover" className="transition-colors hover:text-stage-text">
               {next.title} →
             </Link>
           </div>
@@ -146,19 +178,32 @@ export default function SceneViewer({
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 backdrop-blur-md sm:items-center">
           <div className="max-h-[85vh] w-full max-w-2xl overflow-y-auto border-t border-stage-line bg-stage px-6 py-10 sm:border sm:px-10">
             <p className="text-[11px] uppercase tracking-[0.16em] text-accent">
-              {scene.number} — Scenes &amp; Spaces
+              {item.number} — {section.name}
             </p>
             <h2 className="font-display mt-2 text-3xl uppercase tracking-tight text-stage-text">
-              {scene.title}
-              <span className="ml-3 text-xl normal-case text-stage-text-soft">{scene.titleKo}</span>
+              {item.title}
+              {item.titleKo && (
+                <span className="ml-3 text-xl normal-case text-stage-text-soft">{item.titleKo}</span>
+              )}
             </h2>
-            <p className="mt-4 max-w-xl text-balance text-[14px] leading-relaxed text-stage-text-soft">
-              {scene.description}
+            <p className="mt-4 max-w-xl text-pretty text-[14px] leading-relaxed text-stage-text-soft">
+              {item.description}
             </p>
+
+            {specs.length > 0 && (
+              <dl className="mt-8 space-y-2 border-t border-stage-line pt-6 text-[13px]">
+                {specs.map((spec) => (
+                  <div key={spec.label} className="grid grid-cols-[7rem_1fr] gap-4">
+                    <dt className="text-[11px] uppercase tracking-[0.12em] text-accent">{spec.label}</dt>
+                    <dd className="leading-relaxed text-stage-text-soft">{spec.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
 
             {characters.length > 0 && (
               <div className="mt-8 border-t border-stage-line pt-6">
-                <p className="text-[11px] uppercase tracking-[0.12em] text-accent">In this space</p>
+                <p className="text-[11px] uppercase tracking-[0.12em] text-accent">In this {section.unit}</p>
                 <ul className="mt-3 flex flex-wrap gap-3">
                   {characters.map((c) => (
                     <li key={c.slug}>
@@ -171,6 +216,25 @@ export default function SceneViewer({
                           <Placeholder image={c.portrait} fill />
                         </span>
                         {c.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {links && links.items.length > 0 && (
+              <div className="mt-8 border-t border-stage-line pt-6">
+                <p className="text-[11px] uppercase tracking-[0.12em] text-accent">{links.heading}</p>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {links.items.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        data-cursor="hover"
+                        className="block border border-stage-line px-3 py-1.5 text-[12px] uppercase tracking-[0.08em] text-stage-text transition-colors hover:border-accent"
+                      >
+                        {link.title}
                       </Link>
                     </li>
                   ))}

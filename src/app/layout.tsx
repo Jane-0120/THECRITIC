@@ -3,6 +3,7 @@ import "./globals.css";
 import SiteNav from "@/components/SiteNav";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
+import FilmPlayer from "@/components/FilmPlayer";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
+        <FilmPlayer />
       </body>
     </html>
   );

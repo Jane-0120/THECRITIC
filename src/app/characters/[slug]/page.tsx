@@ -6,6 +6,7 @@ import Placeholder from "@/components/Placeholder";
 import Reveal from "@/components/Reveal";
 import { characters, getCharacter } from "@/data/characters";
 import { getScene, sceneGallery } from "@/data/scenes";
+import { sequences } from "@/data/sequences";
 
 export function generateStaticParams() {
   return characters.map((c) => ({ slug: c.slug }));
@@ -33,6 +34,15 @@ export default async function CharacterDetailPage(
   const relatedScenes = character.relatedScenes
     .map((s) => getScene(s))
     .filter((s): s is NonNullable<typeof s> => Boolean(s));
+  const appearsIn = sequences
+    .filter((q) => q.relatedCharacterSlugs.includes(character.slug))
+    .map((q) => `SQ ${q.number}`);
+  const specs = [
+    ["Desire", character.desire],
+    ["Conflict", character.conflict],
+    ["Costume", character.designCriteria.costume],
+    ...(appearsIn.length > 0 ? [["Sequences", appearsIn.join(", ")]] : []),
+  ];
 
   return (
     <div>
@@ -42,6 +52,14 @@ export default async function CharacterDetailPage(
         <p className="mt-5 max-w-6xl text-balance text-[15px] leading-relaxed text-ink-soft">
           {(character.bio ?? [character.oneLiner]).join(" ")}
         </p>
+        <dl className="mt-8 max-w-3xl space-y-1.5 text-[13px]">
+          {specs.map(([label, value]) => (
+            <div key={label} className="grid grid-cols-[6rem_1fr] gap-4">
+              <dt className="text-[11px] uppercase tracking-[0.12em] text-ink-faint">{label}</dt>
+              <dd className="leading-relaxed text-ink-soft">{value}</dd>
+            </div>
+          ))}
+        </dl>
       </PageHero>
 
       <div className="mx-auto max-w-[1600px] px-4 pb-24 sm:px-6">

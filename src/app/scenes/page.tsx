@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   description: "Three rooms and the street between them — the spaces behind THE CRITIC.",
 };
 
+const lead =
+  "영화 속 네 공간은 조나의 판단이 기술로 넘어가는 과정을 단계적으로 따라가도록 설계되었다. 통제된 집에서 시작해, 감각이 살아 있는 레스토랑을 지나, 판단의 책임을 묻는 편집부에 이른다. 그 사이를 잇는 도심의 거리에는 AETER의 평점과 VERA의 광고가 풍경처럼 깔려 있다. 모든 공간은 액소노메트릭 플랜으로 먼저 구성된 뒤, 재질·빛·색을 더해 장면으로 렌더링되었다.";
+
 function SpaceRow({ scene }: { scene: Scene }) {
   const gallery = sceneGallery(scene);
   const characters = scene.relatedCharacterSlugs
@@ -45,7 +48,9 @@ function SpaceRow({ scene }: { scene: Scene }) {
         <div>
           <div className="flex flex-wrap items-center justify-between gap-4">
             <h2 className="font-display text-2xl text-ink">
-              {scene.number} — {scene.title}
+              <Link href={`/scenes/${scene.slug}`} data-cursor="hover" className="transition-colors hover:text-ink-soft">
+                {scene.number} — {scene.title}
+              </Link>
               <span className="ml-3 text-ink-faint">{scene.titleKo}</span>
             </h2>
             <ul className="flex flex-wrap gap-2">
@@ -65,17 +70,20 @@ function SpaceRow({ scene }: { scene: Scene }) {
               ))}
             </ul>
           </div>
-          <p className="mt-6 max-w-2xl text-balance text-[15px] leading-relaxed text-ink-soft">
-            {scene.description}
+          <p className="mt-6 max-w-2xl text-pretty text-[15px] leading-relaxed text-ink-soft">
+            {scene.detail}
           </p>
-          <Link
-            href={`/scenes/${scene.slug}`}
-            data-cursor="hover"
-            className="group mt-8 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.16em] text-ink-soft transition-colors hover:text-ink"
-          >
-            View space · {gallery.length} images
-            <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
-          </Link>
+          <dl className="mt-6 max-w-2xl space-y-1.5 text-[13px]">
+            {[
+              ["Material", scene.material],
+              ["Light", scene.light],
+            ].map(([label, value]) => (
+              <div key={label} className="grid grid-cols-[6rem_1fr] gap-4">
+                <dt className="text-[11px] uppercase tracking-[0.12em] text-ink-faint">{label}</dt>
+                <dd className="leading-relaxed text-ink-soft">{value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </div>
 
@@ -104,9 +112,10 @@ export default function ScenesPage() {
   return (
     <div>
       <PageHero
-        index="02"
+        index="03"
         eyebrow="Scenes & Spaces"
         title="Spatial Design"
+        lead={lead}
       />
 
       <div className="mx-auto max-w-[1600px] space-y-24 px-4 pb-24 sm:px-6">

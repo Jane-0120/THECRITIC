@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // HLS video segments share the .ts extension with TypeScript.
+    "public/**",
   ]),
 ]);
 

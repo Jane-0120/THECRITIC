@@ -81,7 +81,10 @@ export default function PagedScroll({ children }: { children: ReactNode }) {
     }
 
     function onWheel(e: WheelEvent) {
-      if (locked || document.documentElement.dataset.intro === "playing") {
+      const { intro, film } = document.documentElement.dataset;
+      // The film player covers the page: let its own scrolling alone.
+      if (film === "open") return;
+      if (locked || intro === "playing") {
         e.preventDefault();
         return;
       }

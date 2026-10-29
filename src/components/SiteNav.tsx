@@ -6,7 +6,7 @@ import { useEffect, useState, type MouseEvent } from "react";
 import { chapters, site } from "@/data/site";
 import { cn } from "@/lib/utils";
 
-const IMMERSIVE_ROUTE = /^\/scenes\/[^/]+\/?$/;
+const IMMERSIVE_ROUTE = /^\/(scenes|sequences)\/[^/]+\/?$/;
 
 export default function SiteNav() {
   const pathname = usePathname();

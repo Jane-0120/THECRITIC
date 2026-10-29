@@ -83,11 +83,29 @@ export type Scene = {
   titleKo: string;
   /** Two lines, split with "\n" for the home showcase; joined elsewhere. */
   description: string;
+  /** The fuller write-up for the Scenes page and the viewer's details. */
+  detail: string;
+  material: string;
+  light: string;
   floorPlan?: ImageRef;
   render?: ImageRef;
   thumbnail: ImageRef;
   /** Scene stills shot in this space; the first four are featured. */
   stills: ImageRef[];
+  relatedCharacterSlugs: string[];
+};
+
+// ---------- Sequences ----------
+// The film's eight sequences in story order. Stills are shared with the
+// spaces they were shot in.
+export type Sequence = {
+  slug: string;
+  number: string;
+  title: string;
+  description: string;
+  cover: ImageRef;
+  stills: ImageRef[];
+  spaceSlugs: string[];
   relatedCharacterSlugs: string[];
 };
 

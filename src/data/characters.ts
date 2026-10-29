@@ -12,8 +12,7 @@ export const characters: Character[] = [
       "NULA에서의 식사를 계기로 자신이 느낀 것과 AI가 설명한 것 사이의 간극을 마주한다.",
     ],
     desire: "자신의 미각을 다시 믿는 것.",
-    conflict:
-      "VERA의 분석은 그의 직감보다 정확하고, 그는 점점 그쪽을 더 믿게 된다.",
+    conflict: "VERA의 분석이 자신의 직감보다 정확해지면서, 점차 그 판단에 의존한다.",
     portrait: {
       label: "Jonah Keller",
       alt: "Jonah Keller, studio portrait",
@@ -22,7 +21,7 @@ export const characters: Character[] = [
     },
     designCriteria: {
       appearance: "Sharp, unassuming — a face built to disappear into a room.",
-      costume: "Charcoal knitwear and dark tailoring; the glasses are the only visible technology.",
+      costume: "Charcoal knitwear, dark tailored clothing, and smart glasses.",
       behavior: "Measured, watchful — he writes before he speaks.",
     },
     earlyDesign: {
@@ -57,8 +56,8 @@ export const characters: Character[] = [
       "조나가 오래전 쓴 칼럼을 간직하며, 자신의 요리를 이해해주었던 비평가를 기억한다.",
       "개인적인 메시지와 음식을 통해 조나에게 다가가지만, 그 마음마저 분석과 평가의 대상이 된다.",
     ],
-    desire: "VERA보다 먼저, 단 한 접시라도 조나에게 가닿는 것.",
-    conflict: "허락 없이는 더 이상 아무것도 맛보지 못할지도 모르는 비평가를 위해 요리하고 있다.",
+    desire: "VERA의 판단에 앞서, 조나가 자신의 요리를 직접 맛보게 하는 것.",
+    conflict: "자신의 미각보다 시스템의 판단에 의존하는 비평가를 위해 요리한다.",
     portrait: {
       label: "Marco DeLuca",
       alt: "Marco DeLuca in a black chef's coat, studio portrait",
@@ -67,7 +66,7 @@ export const characters: Character[] = [
     },
     designCriteria: {
       appearance: "Silver-grey, weathered, deliberately old-fashioned against AETER's sterile future.",
-      costume: "A stained black chef's coat — the only costume in the film that shows wear.",
+      costume: "A white chef’s coat with light stains from cooking.",
       behavior: "Unhurried, hands-first; he plates like he's still deciding.",
     },
     earlyDesign: {
@@ -100,9 +99,8 @@ export const characters: Character[] = [
       "그의 글에 의문이 제기되자, 마지막 요리를 직접 설명해보라고 요구한다.",
       "기술의 도움을 받았다는 해명 너머로, 비평가가 자신의 판단에 책임질 수 있는지 묻는다.",
     ],
-    desire: "독자가 믿을 수 있는, 비평가 자신의 판단이 담긴 글.",
-    conflict:
-      "조나의 글이 의심받기 시작하자, 그에게 마지막 코스를 자신의 말로 설명해 보라고 요구한다.",
+    desire: "비평가의 판단이 분명하게 드러나고, 독자가 신뢰할 수 있는 글.",
+    conflict: "조나의 글이 의심받기 시작하자, 마지막 코스를 자신의 말로 설명해 보라고 요구한다.",
     portrait: {
       label: "Lena Voss",
       alt: "Lena Voss, studio portrait",
@@ -111,7 +109,7 @@ export const characters: Character[] = [
     },
     designCriteria: {
       appearance: "Precise, tailored, unreadable — the calm of someone who trusts the data.",
-      costume: "Structured black, no AETER branding visible; she doesn't need to advertise.",
+      costume: "Structured black clothing with no visible AETER branding.",
       behavior: "Listens more than she speaks, and never repeats herself.",
     },
     earlyDesign: {

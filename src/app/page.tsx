@@ -10,7 +10,10 @@ import ScenesShowcase from "@/components/ScenesShowcase";
 import ToolMarquee, { type ToolItem } from "@/components/ToolMarquee";
 import PagedScroll from "@/components/PagedScroll";
 import ArrowUpRight from "@/components/ArrowUpRight";
-import { higgsfieldProjectUrl, site, trailerUrl } from "@/data/site";
+import Placeholder from "@/components/Placeholder";
+import { FilmLink } from "@/components/FilmPlayer";
+import { higgsfieldProjectUrl, site } from "@/data/site";
+import { sequences } from "@/data/sequences";
 
 export const metadata: Metadata = {
   title: site.shortName,
@@ -22,7 +25,7 @@ const instagramUrl =
   "https://www.instagram.com/aeter.ai?stkn=MW9xb3B6Y3Y0cGl6bQ%3D%3D&utm_source=qr";
 
 const contextText =
-  "AI가 일상에 깊이 스며들면서, 선택과 판단을 기술에 맡기는 일이 자연스러워지고 있다.\n본 프로젝트는 이러한 변화를 가까운 미래로 확장한 스페큘러티브 디자인 프로젝트이다.\n가상의 AI 브랜드 AETER와 AI 글래스, 이를 사용하는 음식 비평가의 이야기를 담은 단편 영화로 구성된다.";
+  "AI가 일상에 깊이 스며들면서, 선택과 판단을 기술에 맡기는 일이 자연스러워지고 있다.\n본 프로젝트는 이러한 변화를 가까운 미래로 확장한 스페큘러티브 디자인 프로젝트이다.\n가상의 AI 브랜드 AETER와 AI 글래스, 이를 사용하는 음식 비평가의 이야기를 담은 단편 영화로 구성된다.\nAI 자체를 비판하기보다, 선택을 위임하는 과정에서 발생하는 자기 상실의 가능성을 드러낸다.";
 
 const narrativeParagraphs = [
   "유명 음식 비평가 조나 켈러가 AI 평가 시스템을 거부하는 레스토랑 NULA를 찾는다. 셰프 마르코는 조나가 오래전 쓴 칼럼을 간직한 채 그를 맞지만, 돌아온 비평가의 눈앞에는 AI 어시스턴트 VERA가 있다. 일곱 코스가 나오는 동안 VERA는 재료를 분석하고 평가를 제안한다. 조나는 직접 메모하는 대신 완성된 문장들을 저장한다. 마르코가 건넨 개인적인 메시지도, 마지막 무화과 요리도 예외는 아니다. 식사를 마칠 즈음, 비평문에 필요한 말은 이미 갖춰져 있다.\n\n그러나 집에서 초안을 읽던 조나는 뜻밖의 질문에 막힌다. “그 무화과, 나한테는 무슨 맛이었지?” VERA는 맛의 특징과 그의 신체 반응을 기억하지만, 그에게 그 한입이 무엇이었는지는 답하지 못한다. 조나는 망설임 끝에 글을 제출한다. 이후 식사 중 글래스를 사용하는 모습이 온라인에 퍼지고, 다른 비평문에서 똑같은 표현이 발견되면서 그의 판단은 의심받기 시작한다. 편집자 레나가 마지막 코스를 자신의 말로 설명해보라고 하자, 조나는 답을 찾지 못한다. 비평문은 철회되고, 그는 습관처럼 안경으로 향하던 손을 멈춘다.\n누구보다 맛을 잘 설명하던 비평가에게, 이제 자신의 말이 필요하다.",
@@ -96,13 +99,10 @@ export default function Home() {
             </div>
 
             <Reveal duration={2400} delay={1200} className="reveal-slow lg:justify-self-end">
-              <a
-                href={trailerUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <FilmLink
                 data-cursor="hover"
                 data-cursor-label="Watch full film"
-                aria-label="Watch the full film on YouTube"
+                aria-label="Watch the full film"
                 className="group relative block w-full max-w-[420px] overflow-hidden"
               >
                 <Image
@@ -113,7 +113,7 @@ export default function Home() {
                   sizes="(min-width: 1024px) 420px, 100vw"
                   className="h-auto w-full transition-transform duration-700 group-hover:scale-[1.03]"
                 />
-              </a>
+              </FilmLink>
             </Reveal>
             </div>
           </div>
@@ -140,6 +140,48 @@ export default function Home() {
             <div className="mt-14">
               <CharacterShowcase />
             </div>
+          </div>
+        </section>
+
+        <section
+          id="sequences"
+          className="snap-section relative flex min-h-[100svh] flex-col justify-center py-24 sm:py-28"
+        >
+          <div className="mx-auto w-full max-w-[1600px] px-4 sm:px-6">
+            <Reveal>
+              <div className="flex flex-wrap items-baseline justify-between gap-4">
+                <SectionLabel label="Sequences" />
+                <Link
+                  href="/sequences"
+                  data-cursor="hover"
+                  className="group flex items-center gap-2 text-[12px] uppercase tracking-[0.16em] text-ink-soft transition-colors hover:text-ink"
+                >
+                  All sequences
+                  <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+                </Link>
+              </div>
+            </Reveal>
+            <ol className="mt-14 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-4 lg:grid-cols-4 lg:gap-y-10">
+              {sequences.map((sequence, i) => (
+                <li key={sequence.slug}>
+                  <Reveal delay={i * 60}>
+                    <Link href={`/sequences/${sequence.slug}`} data-cursor="hover" className="group block">
+                      <div className="overflow-hidden">
+                        <Placeholder
+                          image={{ ...sequence.cover, aspect: "21/9" }}
+                          sizes="(min-width: 1024px) 25vw, 50vw"
+                          className="opacity-85 transition-[opacity,transform] duration-700 ease-out group-hover:scale-[1.04] group-hover:opacity-100"
+                        />
+                      </div>
+                      <p className="mt-3 flex flex-wrap items-baseline gap-x-3 text-[13px] uppercase tracking-[0.08em] text-ink">
+                        <span className="text-ink-faint">SQ {sequence.number}</span>
+                        {sequence.title}
+                      </p>
+                    </Link>
+                  </Reveal>
+                </li>
+              ))}
+            </ol>
           </div>
         </section>
 
