@@ -7,6 +7,7 @@ import Placeholder from "./Placeholder";
 import { getCharacter } from "@/data/characters";
 import { site } from "@/data/site";
 import type { ImageRef } from "@/data/types";
+import { blurFor } from "@/lib/blur";
 
 function subscribeHash(onChange: () => void) {
   window.addEventListener("hashchange", onChange);
@@ -119,6 +120,7 @@ export default function GalleryViewer({
               fill
               priority
               sizes="100vw"
+              placeholder={blurFor(gallery[activeIndex].src)}
               className="object-contain"
             />
           ) : (
@@ -126,6 +128,23 @@ export default function GalleryViewer({
               <span className="text-[12px] tracking-[0.08em]">{gallery[activeIndex]?.label}</span>
             </div>
           )}
+          {/* Fetch the neighbouring stills ahead of time so stepping is instant. */}
+          {[...new Set([activeIndex - 1, activeIndex + 1].map((i) => (i + gallery.length) % gallery.length))].map((i) => {
+            const image = gallery[i];
+            if (!image?.src || i === activeIndex) return null;
+            return (
+              <Image
+                key={`preload-${image.src}`}
+                src={image.src}
+                alt=""
+                aria-hidden
+                fill
+                loading="eager"
+                sizes="100vw"
+                className="pointer-events-none invisible"
+              />
+            );
+          })}
         </div>
 
         {/* Phones: step between siblings with arrows beside the image. */}

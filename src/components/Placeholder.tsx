@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { ImageRef } from "@/data/types";
+import { blurFor } from "@/lib/blur";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -31,6 +32,7 @@ export default function Placeholder({ image, className, priority, sizes = "(min-
           fill
           priority={priority}
           sizes={sizes}
+          placeholder={blurFor(image.src)}
           className="object-cover"
         />
       ) : (

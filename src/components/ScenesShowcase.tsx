@@ -6,6 +6,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 
 import { scenes, sceneGallery } from "@/data/scenes";
 import type { ImageRef } from "@/data/types";
+import { blurFor } from "@/lib/blur";
 
 // The track is laid out in `--u` units. Each space opens with its
 // axonometric plan and caption spanning both rows (a space without a plan
@@ -219,6 +220,7 @@ export default function ScenesShowcase({ header }: { header: ReactNode }) {
                         fill
                         sizes="(min-width: 1024px) 40vw, 70vw"
                         loading="eager"
+                        placeholder={blurFor(card.image.src)}
                         className="object-cover opacity-80 transition-[opacity,transform] duration-700 ease-out group-hover:scale-[1.04] group-hover:opacity-100"
                       />
                     </div>

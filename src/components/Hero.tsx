@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { openFilm } from "./FilmPlayer";
+import { blurFor } from "@/lib/blur";
 
 // Swap in a real cut once one exists — the hero prefers video and only
 // falls back to a slow-zoom still when this is null.
@@ -232,6 +233,7 @@ export default function Hero() {
               fill
               priority
               sizes="100vw"
+              placeholder={blurFor(heroStill)}
               className="animate-kenburns object-cover"
             />
           )}

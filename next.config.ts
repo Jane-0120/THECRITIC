@@ -9,10 +9,12 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   basePath,
   images: {
-    // No image optimisation server on a static host — the loader just
-    // prefixes the base path onto the original file.
+    // No image optimisation server on a static host — the loader points at
+    // WebP sizes pre-rendered by scripts/optimize-images.mjs.
     loader: "custom",
     loaderFile: "./src/lib/imageLoader.ts",
+    deviceSizes: [640, 1080, 1600, 2560],
+    imageSizes: [320],
   },
 };
 

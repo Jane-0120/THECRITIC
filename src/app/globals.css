@@ -137,6 +137,12 @@ body {
 .animate-kenburns {
   animation: kenburns 26s ease-in-out infinite;
 }
+/* Hold the zoom while the intro scales the hero up: an image animating inside
+   a growing parent is rasterised at the small size and re-drawn in steps,
+   which reads as crackle. It starts at scale(1), so beginning later is seamless. */
+[data-intro="playing"] .animate-kenburns {
+  animation: none;
+}
 @media (prefers-reduced-motion: reduce) {
   .animate-kenburns {
     animation: none;
