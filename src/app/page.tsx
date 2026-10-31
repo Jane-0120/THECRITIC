@@ -166,16 +166,20 @@ export default function Home() {
                 <li key={sequence.slug}>
                   <Reveal delay={i * 60}>
                     <Link href={`/sequences/${sequence.slug}`} data-cursor="hover" className="group block">
-                      <div className="overflow-hidden">
+                      <div className="relative overflow-hidden">
                         <Placeholder
                           image={{ ...sequence.cover, aspect: "21/9" }}
                           sizes="(min-width: 1024px) 25vw, 50vw"
                           className="opacity-85 transition-[opacity,transform] duration-700 ease-out group-hover:scale-[1.04] group-hover:opacity-100"
                         />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/70 px-3 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100">
+                          <span className="text-center text-[12px] uppercase tracking-[0.14em] text-white">
+                            {sequence.title}
+                          </span>
+                        </div>
                       </div>
-                      <p className="mt-3 flex flex-wrap items-baseline gap-x-3 text-[13px] uppercase tracking-[0.08em] text-ink">
-                        <span className="text-ink-faint">SQ {sequence.number}</span>
-                        {sequence.title}
+                      <p className="mt-3 text-[13px] uppercase tracking-[0.08em] text-ink-faint">
+                        SQ {sequence.number}
                       </p>
                     </Link>
                   </Reveal>

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import GalleryViewer from "@/components/GalleryViewer";
-import { getScene } from "@/data/scenes";
 import { sequences, getSequence } from "@/data/sequences";
 
 export function generateStaticParams() {
@@ -30,9 +29,6 @@ export default async function SequenceDetailPage(
   const index = sequences.findIndex((q) => q.slug === slug);
   const prev = sequences[(index - 1 + sequences.length) % sequences.length];
   const next = sequences[(index + 1) % sequences.length];
-  const spaces = sequence.spaceSlugs
-    .map((s) => getScene(s))
-    .filter((s): s is NonNullable<typeof s> => Boolean(s));
 
   return (
     <GalleryViewer
@@ -42,10 +38,6 @@ export default async function SequenceDetailPage(
       section={{ name: "Sequences", unit: "sequence", back: { href: "/#sequences", title: "Sequences" } }}
       prev={{ href: `/sequences/${prev.slug}`, title: `SQ ${prev.number}` }}
       next={{ href: `/sequences/${next.slug}`, title: `SQ ${next.number}` }}
-      links={{
-        heading: "Spaces",
-        items: spaces.map((s) => ({ href: `/scenes/${s.slug}`, title: `${s.number} — ${s.title}` })),
-      }}
     />
   );
 }

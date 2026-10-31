@@ -3,7 +3,6 @@ import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import Placeholder from "@/components/Placeholder";
 import Reveal from "@/components/Reveal";
-import { getScene } from "@/data/scenes";
 import { sequences } from "@/data/sequences";
 import type { Sequence } from "@/data/types";
 
@@ -13,13 +12,9 @@ export const metadata: Metadata = {
 };
 
 const lead =
-  "영화는 여덟 개의 시퀀스로 구성된다. 글래스를 쓰며 시작하는 아침에서, NULA의 일곱 코스와 RAVEN의 질문을 지나, 글래스를 내려놓고 나서는 비 내리는 거리까지 — 조나의 판단이 기술로 넘어갔다가 다시 자신에게 돌아오는 과정을 따라간다.";
+  "영화는 여덟 개의 시퀀스로 구성된다.\n글래스를 쓰는 아침에서 글래스 없이 나서는 거리까지, 판단을 기술에 넘겼던 조나가 다시 자신의 말을 찾아가는 과정을 따라간다.";
 
 function SequenceRow({ sequence }: { sequence: Sequence }) {
-  const spaces = sequence.spaceSlugs
-    .map((s) => getScene(s))
-    .filter((s): s is NonNullable<typeof s> => Boolean(s));
-
   return (
     <article className="grid gap-8 border-t border-paper-line pt-10 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:gap-16">
       <div>
@@ -30,19 +25,6 @@ function SequenceRow({ sequence }: { sequence: Sequence }) {
           </Link>
         </h2>
         <p className="mt-5 text-pretty text-[15px] leading-relaxed text-ink-soft">{sequence.description}</p>
-        <ul className="mt-6 flex flex-wrap gap-2">
-          {spaces.map((s) => (
-            <li key={s.slug}>
-              <Link
-                href={`/scenes/${s.slug}`}
-                data-cursor="hover"
-                className="block rounded-full border border-paper-line px-3 py-1 text-[12px] uppercase tracking-[0.08em] text-ink-soft transition-colors hover:border-ink hover:text-ink"
-              >
-                {s.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
       </div>
 
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
@@ -69,7 +51,11 @@ function SequenceRow({ sequence }: { sequence: Sequence }) {
 export default function SequencesPage() {
   return (
     <div>
-      <PageHero index="02" eyebrow="Sequences" title="Eight Sequences" lead={lead} />
+      <PageHero index="02" eyebrow="Sequences" title="Eight Sequences">
+        <p className="mt-5 whitespace-pre-line text-[15px] leading-relaxed text-ink-soft lg:whitespace-pre">
+          {lead}
+        </p>
+      </PageHero>
 
       <div className="mx-auto max-w-[1600px] space-y-20 px-4 pb-24 sm:px-6">
         {sequences.map((sequence, i) => (
