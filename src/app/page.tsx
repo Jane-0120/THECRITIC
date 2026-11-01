@@ -21,8 +21,6 @@ export const metadata: Metadata = {
 };
 
 const HIGGSFIELD_PREVIEW_ASPECT = "3392/1756";
-const instagramUrl =
-  "https://www.instagram.com/aeter.ai?stkn=MW9xb3B6Y3Y0cGl6bQ%3D%3D&utm_source=qr";
 
 const contextText =
   "AI가 일상에 깊이 스며들면서, 선택과 판단을 기술에 맡기는 일이 자연스러워지고 있다.\n본 프로젝트는 이러한 변화를 가까운 미래로 확장한 스페큘러티브 디자인 프로젝트이다.\n가상의 AI 브랜드 AETER와 AI 글래스, 이를 사용하는 음식 비평가의 이야기를 담은 단편 영화로 구성된다.\nAI 자체를 비판하기보다, 선택을 위임하는 과정에서 발생하는 자기 상실의 가능성을 드러낸다.";
@@ -32,7 +30,7 @@ const narrativeParagraphs = [
 ];
 
 const aeterText =
-  "영화 속에서 일상에 널리 보급된 AETER는 일상의 감각과 선택을 분석하고 판단을 돕는 가상의 AI 브랜드이다.\n스마트 글래스와 AI 어시스턴트 VERA로 경험과 신체 반응을 기록하고, 일정 관리부터 분석과 글쓰기까지 일상 전반을 지원한다.";
+  "영화 속에서 일상에 널리 보급된 AETER는 일상의 감각과 선택을 분석하고 판단을 돕는 가상의 AI 브랜드이다.\n스마트 글래스와 AI 어시스턴트 VERA로 경험과 신체 반응을 기록하고, 일정 관리부터 분석과 글쓰기까지 일상 전반을 지원한다.\nAETER는 현대인의 일상에서 반복되는 ‘선택의 피로’에 대한 관찰에서 시작되었고, 그 피로를 덜어주겠다고 약속한다.";
 
 const processSteps = [
   {
@@ -230,30 +228,10 @@ export default function Home() {
 
           <div className="relative">
             <div className="mx-auto flex h-[100svh] max-w-[1600px] flex-col justify-between px-4 pb-12 pt-24 sm:px-6 sm:pb-14 sm:pt-28">
-              <div className="flex flex-wrap items-baseline justify-between gap-4">
-                <SectionLabel label="AETER" />
-                <Link
-                  href="/aeter"
-                  data-cursor="hover"
-                  className="group flex items-center gap-2 text-[12px] uppercase tracking-[0.16em] text-stage-text-soft transition-colors hover:text-stage-text"
-                >
-                  About the brand
-                  <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
-                </Link>
-              </div>
+              <SectionLabel label="AETER" />
 
               <div className="flex justify-end pb-2 sm:pb-4">
                 <div className="flex max-w-xl flex-col items-end text-right xl:max-w-none">
-                  <a
-                    href={instagramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-cursor="hover"
-                    className="mb-7 inline-flex items-center gap-2 border border-stage-text/50 bg-stage-text/10 px-6 py-2.5 text-[13px] uppercase tracking-[0.14em] text-stage-text backdrop-blur-sm transition-colors hover:bg-stage-text/20"
-                  >
-                    Instagram
-                    <ArrowUpRight />
-                  </a>
                   <div className="text-stage-text-soft">
                     <ScrollReveal baseOpacity={0.15} baseRotation={2} blurStrength={6} textClassName="text-right text-balance xl:whitespace-nowrap">
                       {aeterText}
